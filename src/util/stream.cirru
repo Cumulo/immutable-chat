@@ -34,7 +34,7 @@ var Stream exports
   var newEmitter $ Emitter.create
   var interalState initial
   Emitter.watch (Emitter.unwrap stream) $ \ (data)
-    = interalState $ method interalState data
+    = interalState $ method data interalState
     Emitter.trigger newEmitter interalState
   return $ Stream.wrap newEmitter
 

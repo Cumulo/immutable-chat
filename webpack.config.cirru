@@ -5,7 +5,7 @@ var
 
 = module.exports $ object
   :entry $ object
-    :vendor $ array
+    :vendor $ array :react :immutable
       , :webpack-dev-server/client?http://0.0.0.0:8080
       , :webpack/hot/dev-server
     :main $ array :./src/main
