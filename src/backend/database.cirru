@@ -1,7 +1,7 @@
 
 var
   Immutable $ require :immutable
-  websocket $ require :./websocket
+  actions $ require :./actions
   Stream $ require :../util/stream
 
 var defaultData $ {}
@@ -14,7 +14,7 @@ var defaultData $ {}
 
 var _database $ Immutable.fromJS defaultData
 
-var dataStream $ Stream.handle websocket.stream _database $ \ (database action)
+var dataStream $ Stream.handle actions _database $ \ (database action)
 
   console.log action
 

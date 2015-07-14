@@ -18,5 +18,4 @@ var _data $ Immutable.Map
 Stream.handle actions.stream $ \ (action)
   ws.send $ JSON.stringify action
 
-= exports.stream $ Stream.create socketEvents
-= exports.
+= exports.stream $ Stream.wrap socketEvents

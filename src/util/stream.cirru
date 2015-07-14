@@ -4,37 +4,41 @@ var
 
 var Stream exports
 
-= Stream.create $ \ (emitter)
-  return $ emitter
+= Stream.wrap $ \ (emitter)
+  return $ {}
+    :type :stream
+    :emitter emitter
 
 = Stream.map $ \ (stream fn)
-  var newStream $ Stream.create
-  Emitter.watch stream $ \ (data)
-    Emitter.trigger newStream (fn data)
+  var newEmitter $ Emitter.create
+  Emitter.watch (Emitter.unwrap stream) $ \ (data)
+    Emitter.trigger newEmitter (fn data)
+  return $ Stream.wrap newEmitter
 
-= Stream.filterStream $ \ (stream fn)
-  var newStream $ Stream.create
-  Emitter.watch stream $ \ (data)
+= Stream.filter $ \ (stream fn)
+  var newEmitter $ Emitter.create
+  Emitter.watch (Emitter.unwrap stream) $ \ (data)
     if (fn data) $ do
-      Emitter.trigger newStream data
+      Emitter.trigger newEmitter data
+  return $ Stream.wrap newEmitter
 
-= Stream.mergeStream $ \ (streamA streamB)
-  var newStream $ Stream.create
-  Emitter.watch streamA $ \ (data)
-    Emitter.trigger newStream (fn data)
-  Emitter.watch streamB $ \ (data)
-    Emitter.trigger newStream (fn data)
-  return newStream
+= Stream.merge $ \ (streamA streamB)
+  var newEmitter $ Emitter.create
+  Emitter.watch (Emitter.unwrap streamA) $ \ (data)
+    Emitter.trigger newEmitter (fn data)
+  Emitter.watch (Emitter.unwrap streamB) $ \ (data)
+    Emitter.trigger newEmitter (fn data)
+  return newEmitter
 
-= Stream.reduceStream $ \ (stream initial method)
-  var newStream $ Stream.create
+= Stream.reduce $ \ (stream initial method)
+  var newEmitter $ Emitter.create
   var interalState initial
-  Emitter.watch stream $ \ (data)
+  Emitter.watch (Emitter.unwrap stream) $ \ (data)
     = interalState $ method interalState data
-    Emitter.trigger newStream interalState
-  return newStream
+    Emitter.trigger newEmitter interalState
+  return $ Stream.wrap newEmitter
 
-= Stream.handleStream $ \ (stream fn)
-  Emitter.watch stream $ \ (data)
+= Stream.handle $ \ (stream fn)
+  Emitter.watch (Emitter.unwrap stream) $ \ (data)
     fn data
   return stream
