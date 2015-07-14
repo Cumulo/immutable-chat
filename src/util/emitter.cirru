@@ -1,12 +1,12 @@
 
-= exports.createEmitter $ \ ()
+= exports.create $ \ ()
   return $ {}
     :listeners $ []
 
-= exports.triggerEmitter $ \ (emitter data)
+= exports.trigger $ \ (emitter data)
   return $ emitter.listeners.map $ \ (fn)
     return $ fn data
 
-= exports.watchEmitter $ \ (emitter fn)
+= exports.watch $ \ (emitter fn)
   = emitter.listeners $ emitter.listeners.concat $ [] fn
   return emitter

@@ -1,30 +1,40 @@
 
 var
-  ({}~ createEmitter triggerEmitter watchEmitter) $ require :./emitter
+  Emitter $ require :./emitter
 
-= exports.createStream $ \ (emitter)
-  return $ createEmitter
+var Stream exports
 
-= exports.mapStream $ \ (stream fn)
-  var newStream $ createStream
-  watchEmitter stream $ \ (data)
-    triggerEmitter newStream (fn data)
+= Stream.create $ \ (emitter)
+  return $ emitter
 
-= exports.filterStream $ \ (stream fn)
-  var newStream $ createStream
-  watchEmitter stream $ \ (data)
+= Stream.map $ \ (stream fn)
+  var newStream $ Stream.create
+  Emitter.watch stream $ \ (data)
+    Emitter.trigger newStream (fn data)
+
+= Stream.filterStream $ \ (stream fn)
+  var newStream $ Stream.create
+  Emitter.watch stream $ \ (data)
     if (fn data) $ do
-      triggerEmitter newStream data
+      Emitter.trigger newStream data
 
-= exports.mergeStream $ \ (streamA streamB)
-  var newStream $ createStream
-  watchEmitter streamA $ \ (data)
-    triggerEmitter newStream (fn data)
-  watchEmitter streamB $ \ (data)
-    triggerEmitter newStream (fn data)
+= Stream.mergeStream $ \ (streamA streamB)
+  var newStream $ Stream.create
+  Emitter.watch streamA $ \ (data)
+    Emitter.trigger newStream (fn data)
+  Emitter.watch streamB $ \ (data)
+    Emitter.trigger newStream (fn data)
   return newStream
 
-= exports.handleStream $ \ (stream fn)
-  watchEmitter stream $ \ (data)
+= Stream.reduceStream $ \ (stream initial method)
+  var newStream $ Stream.create
+  var interalState initial
+  Emitter.watch stream $ \ (data)
+    = interalState $ method interalState data
+    Emitter.trigger newStream interalState
+  return newStream
+
+= Stream.handleStream $ \ (stream fn)
+  Emitter.watch stream $ \ (data)
     fn data
   return stream
