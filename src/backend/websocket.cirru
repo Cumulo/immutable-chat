@@ -12,7 +12,7 @@ var wss $ new ws.Server $ {} (:port 3000)
 wss.on :connection $ \ (socket)
   var id :fake-id
   socket.on :message $ \ (action)
-    = action.id id
+    = action.privateId id
     Emitter.trigger (Emitter.unwrap dispatcher) action
   = (. register id) socket
   socket.on :close $ \ ()

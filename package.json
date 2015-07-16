@@ -28,6 +28,7 @@
     "immutablediff": "^0.4.2",
     "immutablepatch": "^0.2.0",
     "react": "^0.13.3",
+    "shortid": "^2.2.2",
     "ws": "^0.7.2"
   },
   "repository": {
