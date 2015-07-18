@@ -1,10 +1,14 @@
 
 var
   ws $ require :ws
-  Emitter $ require :../util/emitter
-  Stream $ require :../util/stream
+  Pipeline $ require :../util/pipeline
   differ $ require :./differ
   dispatcher $ require :./dispatcher
+
+var inPipeline $ Pipeline.create
+var outPipeline $ Pipeline.create
+= exports.in inPipeline
+= exports.out outPipeline
 
 var register $ {}
 
@@ -13,12 +17,12 @@ wss.on :connection $ \ (socket)
   var id :fake-id
   socket.on :message $ \ (action)
     = action.privateId id
-    Emitter.trigger (Emitter.unwrap dispatcher) action
+    Pipeline.send outPipeline action
   = (. register id) socket
   socket.on :close $ \ ()
     = (. register id) null
 
-Stream.handle differ $ \ (operations)
+Pipeline.for inPipeline $ \ (operations)
   operations.forEach $ \ (op)
     var socket $ . register op.sessionId
     socket.send $ JSON.stringify op

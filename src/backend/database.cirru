@@ -2,13 +2,16 @@
 var
   Immutable $ require :immutable
   dispatcher $ require :./dispatcher
-  Stream $ require :../util/stream
+  Pipeline $ require :../util/pipeline
   schema $ require :./schema
   shortid $ require :shortid
 
+var inPipeline $ Pipeline.create
+= exports.in inPipeline
+
 var _database $ Immutable.fromJS schema.databasew
 
-var dataStream $ Stream.handle dispatcher _database $ \ (action db)
+var outPipeline $ Pipeline.reduce inPipeline _database $ \ (action db)
   console.log action
   switch action.type
     :user/create
@@ -118,4 +121,4 @@ var dataStream $ Stream.handle dispatcher _database $ \ (action db)
       return $ db.set :privates $ thePrivates.set action.privateId
         theState.set :isFocused false
 
-= module.exports dataStream
+= exports.out outPipeline

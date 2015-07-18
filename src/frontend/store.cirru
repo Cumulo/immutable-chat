@@ -1,17 +1,13 @@
 
 var
-  Emitter $ require :../util/emitter
-  Stream $ require :../util/stream
   Immutable $ require :immutable
-  hubs $ require :./hubs
 
+var inPipeline $ Pipeline.create
+= exports.in inPipeline
 
 var _store $ Immutable.Map
 
-var storeStream $ Stream.reduce hubs.syncStream _store $ \ (syncEvent store)
-
-  console.log syncEvent
-
+var outPipeline $ Pipeline.reduce inPipeline _store $ \ (action store)
   return store
 
-= module.exports storeStream
+= exports.out outPipeline

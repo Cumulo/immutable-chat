@@ -1,3 +1,3 @@
 
-= module.exports $ \ (tables states)
-  return states
+= module.exports $ \ (tables state)
+  return state

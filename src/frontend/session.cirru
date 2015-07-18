@@ -1,9 +1,10 @@
 
 var
   Immutable $ require :immutable
-  Emitter $ require :../util/emitter
-  Stream $ require :../util/stream
-  hubs $ require :./hubs
+  Pipeline $ require :../util/pipeline
+
+var inPipeline $ Pipeline.create
+= exports.in inPipeline
 
 var defaultData $ {}
   :username null
@@ -11,10 +12,9 @@ var defaultData $ {}
 
 var _session $ Immutable.fromJS defaultData
 
-var sessionStream $ Stream.reduce hubs.behaviorStream _session $ \ (behavior session)
+var outPipeline $ Pipeline.reduce inPipeline _session $ \ (action session)
 
   console.log behavior
-
   return session
 
-= module.exports sessionStream
+= module.exports outPipeline
