@@ -1,18 +1,20 @@
 
 var
   Pipeline $ require :../util/pipeline
-  database $ require :./database
   Immutable $ require :immutable
   diff $ require :immutablediff
+  expand
 
 var inPipeline $ Pipeline.create
 var outPipeline $ Pipeline.create
 = exports.in inPipeline
 = exports.out outPipeline
+= exports.configExpand $ \ (method)
+  = expand method
 
 var _cache $ Immutable.fromJS $ {}
 
-var outPipeline $ Pipeline.for inPipeline $ \ (db)
+Pipeline.for inPipeline $ \ (db)
   var
     theTables $ db.get :tables
     thePrivates $ db.get :privates
@@ -32,5 +34,3 @@ var outPipeline $ Pipeline.for inPipeline $ \ (db)
           set :state state
           set :tree newTree
     return true
-
-= module.exports outPipeline
