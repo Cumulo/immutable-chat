@@ -1,9 +1,10 @@
 
-= Pipeline $ {}
+var Pipeline $ {}
+= module.exports Pipeline
 
 = Pipeline.create $ \ ()
   return $ {}
-    :listeners []
+    :listeners $ []
 
 = Pipeline.send $ \ (pipeline x)
   pipeline.listeners.forEach $ \ (handler)
@@ -12,7 +13,7 @@
 = Pipeline.for $ \ (pipeline handler)
   = pipeline.listeners $ pipeline.listeners.concat $ [] handler
 
-= Pipeline.connect $ \ (x1 x2)
+= Pipeline.forward $ \ (x1 x2)
   Pipeline.for x1 $ \ (data)
     Pipeline.send x2 data
 
@@ -24,7 +25,7 @@
 = Pipeline.reduce $ \ (pipeline initial handler)
   var internalState initial
   var x1 $ Pipeline.create
-  Pipeline.for $ \ (data)
+  Pipeline.for pipeline $ \ (data)
     var internalState $ handler data internalState
     Pipeline.send x1 internalState
   return x1

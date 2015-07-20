@@ -13,7 +13,7 @@ var
   :name null
   :password :password
   :avatar null
-  :isOnline
+  :isOnline false
 
 = exports.private $ Immutable.fromJS $ {}
   :isFocused false

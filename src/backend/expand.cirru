@@ -1,6 +1,6 @@
 
 var
-  Immutable $ requre :immutable
+  Immutable $ require :immutable
 
 = module.exports $ \ (tables state)
   var

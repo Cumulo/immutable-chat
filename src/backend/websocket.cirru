@@ -3,7 +3,6 @@ var
   ws $ require :ws
   Pipeline $ require :../util/pipeline
   differ $ require :./differ
-  dispatcher $ require :./dispatcher
 
 var inPipeline $ Pipeline.create
 var outPipeline $ Pipeline.create
@@ -12,8 +11,7 @@ var outPipeline $ Pipeline.create
 
 var register $ {}
 
-var wss $ new ws.Server $ {} (:port 3000)
-wss.on :connection $ \ (socket)
+var connectionHandler $ \ (socket)
   var id :fake-id
   socket.on :message $ \ (action)
     = action.privateId id
@@ -21,6 +19,11 @@ wss.on :connection $ \ (socket)
   = (. register id) socket
   socket.on :close $ \ ()
     = (. register id) null
+
+= exports.setup $ \ (options)
+  var wss $ new ws.Server $ {} (:port options.port)
+  wss.on :connection connectionHandler
+  console.log ":ws server listening at" options.port
 
 Pipeline.for inPipeline $ \ (operations)
   operations.forEach $ \ (op)

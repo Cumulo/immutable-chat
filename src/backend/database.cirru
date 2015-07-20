@@ -1,7 +1,6 @@
 
 var
   Immutable $ require :immutable
-  dispatcher $ require :./dispatcher
   Pipeline $ require :../util/pipeline
   schema $ require :./schema
   shortid $ require :shortid
