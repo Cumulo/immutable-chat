@@ -3,23 +3,24 @@ var
   React $ require :react
   Pipeline $ require :../util/pipeline
   view $ require :../frontend/view
+  schema $ require :../frontend/schema
 
 var
   div $ React.createFactory :div
 
-= pageComponent $ React.createClass $ {}
+var pageComponent $ React.createClass $ {}
   :displayName :app-page
 
   :getInitialState $ \ ()
     return $ {}
       :store null
-      :session null
+      :session schema.session
 
   :componentWillMount $ \ ()
-    Pipeline.for view.in $ \ (data)
+    Pipeline.for view.in $ \\ (data)
       if (is data.target :store) $ do
         this.setState $ {} $ :store data.data
-    Pipeline.for view.in $ \ (data)
+    Pipeline.for view.in $ \\ (data)
       if (is data.target :session) $ do
         this.setState $ {} $ :session data.data
 

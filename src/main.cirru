@@ -6,6 +6,8 @@ var
   view $ require :./frontend/view
   Pipeline $ require :./util/pipeline
 
+require :./app/page
+
 websocket.setup $ {} (:port 3000)
 
 Pipeline.forward websocket.out store.in
@@ -20,3 +22,5 @@ Pipeline.for session.out $ \ (data)
 
 Pipeline.forward view.out websocket.in
 
+Pipeline.for store.out $ \ (data)
+  console.info $ data.toJS

@@ -4,11 +4,20 @@ var
   Pipeline $ require :../util/pipeline
   schema $ require :./schema
   shortid $ require :shortid
+  fs $ require :fs
+  path $ require :path
 
 var inPipeline $ Pipeline.create
 = exports.in inPipeline
 
-var _database $ Immutable.fromJS schema.database
+var dbpath $ path.join __dirname :data.json
+if (fs.existsSync dbpath)
+  do
+    var content $ JSON.parse $ fs.readFileSync dbpath :utf8
+    = content.privates $ {}
+    var _database $ Immutable.fromJS content
+  do
+    var _database $ Immutable.fromJS schema.database
 
 var outPipeline $ Pipeline.reduce inPipeline _database $ \ (action db)
   switch action.type
@@ -97,7 +106,7 @@ var outPipeline $ Pipeline.reduce inPipeline _database $ \ (action db)
       var
         thePrivates $ db.get :privates
         theTables $ db.get :tables
-        theUsers $ theUsers.get :users
+        theUsers $ theTables.get :users
       return $ ... db
         set :privates $ thePrivates.delete action.privateId
         set :tables $ theTables.set :users

@@ -29,9 +29,12 @@ Pipeline.for inPipeline $ \ (db)
         isnt (theCache.get :state) state
       do
         var newTree $ expand theTables state
+        var oldTree $ or
+          theCache.get :tree
+          Immutable.Map
         Pipeline.send outPipeline $ object
           :id $ state.get :id
-          :diff $ diff (theCache.get :tree) newTree
+          :diff $ diff oldTree newTree
         = _cache $ _cache.set (state.get :id) $ ... theCache
           set :db db
           set :state state

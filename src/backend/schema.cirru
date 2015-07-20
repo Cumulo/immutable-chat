@@ -18,6 +18,9 @@ var
 = exports.private $ Immutable.fromJS $ {}
   :isFocused false
   :topicId null
+  :notifications $ []
+  :isLogined false
+  :userId null
 
 = exports.buffer $ Immutable.fromJS $ {}
   :id null

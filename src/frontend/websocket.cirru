@@ -1,5 +1,6 @@
 
 var
+  Immutable $ require :immutable
   Pipeline $ require :../util/pipeline
 
 var inPipeline $ Pipeline.create
@@ -15,4 +16,4 @@ var outPipeline $ Pipeline.create
   var socket $ new WebSocket $ + :ws://localhost: options.port
   = socket.onmessage $ \ (event)
     var data $ JSON.parse event.data
-    Pipeline.send outPipeline data
+    Pipeline.send outPipeline $ Immutable.fromJS data

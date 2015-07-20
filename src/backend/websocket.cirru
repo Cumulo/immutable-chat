@@ -18,6 +18,9 @@ var connectionHandler $ \ (socket)
   = (. register id) socket
   socket.on :close $ \ ()
     = (. register id) null
+    Pipeline.send outPipeline $ {}
+      :privateId id
+      :type :private/disconnect
 
   socket.on :message $ \ (action)
     = action.privateId id
@@ -33,4 +36,9 @@ var connectionHandler $ \ (socket)
 
 Pipeline.for inPipeline $ \ (op)
   var socket $ . register op.id
-  socket.send $ JSON.stringify op.diff
+  if (? socket)
+    do
+      socket.send $ JSON.stringify op.diff
+    do
+      console.log ":missing socket" op
+
