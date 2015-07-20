@@ -16,3 +16,6 @@ var outPipeline $ Pipeline.create
   = socket.onmessage $ \ (event)
     var data $ JSON.parse event.data
     Pipeline.send outPipeline data
+
+  = socket.onopen $ \ ()
+    console.log :opened

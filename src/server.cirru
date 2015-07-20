@@ -12,3 +12,6 @@ websocket.setup $ {}
 Pipeline.forward websocket.out database.in
 Pipeline.forward database.out differ.in
 Pipeline.forward differ.out websocket.in
+
+Pipeline.for differ.out $ \ (data)
+  console.log :differ.out data

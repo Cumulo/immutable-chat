@@ -1,14 +1,13 @@
 
 var
   React $ require :react
-  store $ require :../frontend/store
-  session $ require :../frontend/session
-  Stream $ require :../util/stream
+  Pipeline $ require :../util/pipeline
+  view $ require :../frontend/view
 
 var
   div $ React.createFactory :div
 
-= module.exports $ React.createClass $ {}
+= pageComponent $ React.createClass $ {}
   :displayName :app-page
 
   :getInitialState $ \ ()
@@ -17,10 +16,17 @@ var
       :session null
 
   :componentWillMount $ \ ()
-    Stream.handle store $ \\ (data)
-      this.setState $ {} (:store data)
-    Stream.handle session $ \\ (data)
-      this.setState $ {} (:session data)
+    Pipeline.for view.in $ \ (data)
+      if (is data.target :store) $ do
+        this.setState $ {} $ :store data.data
+    Pipeline.for view.in $ \ (data)
+      if (is data.target :session) $ do
+        this.setState $ {} $ :session data.data
 
   :render $ \ ()
     return $ div null :demo
+
+var
+  Page $ React.createFactory pageComponent
+
+React.render (Page) document.body

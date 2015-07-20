@@ -17,4 +17,4 @@ var outPipeline $ Pipeline.reduce inPipeline _session $ \ (action session)
   console.log behavior
   return session
 
-= module.exports outPipeline
+= exports.out outPipeline

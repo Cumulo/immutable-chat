@@ -11,7 +11,6 @@ var inPipeline $ Pipeline.create
 var _database $ Immutable.fromJS schema.databasew
 
 var outPipeline $ Pipeline.reduce inPipeline _database $ \ (action db)
-  console.log action
   switch action.type
     :user/create
       var

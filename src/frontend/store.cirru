@@ -1,6 +1,7 @@
 
 var
   Immutable $ require :immutable
+  Pipeline $ require :../util/pipeline
 
 var inPipeline $ Pipeline.create
 = exports.in inPipeline
