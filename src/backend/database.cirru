@@ -8,7 +8,7 @@ var
 var inPipeline $ Pipeline.create
 = exports.in inPipeline
 
-var _database $ Immutable.fromJS schema.databasew
+var _database $ Immutable.fromJS schema.database
 
 var outPipeline $ Pipeline.reduce inPipeline _database $ \ (action db)
   switch action.type
@@ -85,7 +85,8 @@ var outPipeline $ Pipeline.reduce inPipeline _database $ \ (action db)
         theTables $ db.get :tables
         theUsers $ theTables.get :users
       return $ ... db
-        set :privates $ thePrivates.set action.privateId schema.private
+        set :privates $ thePrivates.set action.privateId
+          schema.private.set :id action.privateId
         set :tables $ theTables.set :users
           theUsers.map $ \ (aUser)
             return $ cond (is (aUser.get :id) action.privateId)

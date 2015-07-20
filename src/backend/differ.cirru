@@ -9,8 +9,8 @@ var inPipeline $ Pipeline.create
 var outPipeline $ Pipeline.create
 = exports.in inPipeline
 = exports.out outPipeline
-= exports.configExpand $ \ (method)
-  = expand method
+= exports.setup $ \ (options)
+  = expand options.expand
 
 var _cache $ Immutable.fromJS $ {}
 
@@ -18,18 +18,21 @@ Pipeline.for inPipeline $ \ (db)
   var
     theTables $ db.get :tables
     thePrivates $ db.get :privates
-  privates.forEach $ \ (state)
+  thePrivates.forEach $ \ (state)
     var
-      theCache $ cache.get (state.get :id)
+      theCache $ or
+        _cache.get (state.get :id)
+        Immutable.Map
     if
       or
         isnt (theCache.get :db) db
         isnt (theCache.get :state) state
       do
-        var newTree $ expand db state
-        Pipeline.send outPipeline
-          diff (theCache.get :tree) newTree
-        = cache $ cache.set (state.get :id) $ ... theCache
+        var newTree $ expand theTables state
+        Pipeline.send outPipeline $ object
+          :id $ state.get :id
+          :diff $ diff (theCache.get :tree) newTree
+        = _cache $ _cache.set (state.get :id) $ ... theCache
           set :db db
           set :state state
           set :tree newTree

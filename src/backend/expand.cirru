@@ -18,7 +18,7 @@ var
         filter $ \ (aMessage)
           return $ is (aMessage.get id) (state.get :topicId)
       Immutable.List
-  return $ Immutable.Map
+  return $ Immutable.Map $ {}
     :topics theTopics
     :onlineUsers theOnline
     :messages theMessages

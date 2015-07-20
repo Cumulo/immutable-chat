@@ -10,11 +10,11 @@ websocket.setup $ {} (:port 3000)
 
 Pipeline.forward websocket.out store.in
 Pipeline.for store.out $ \ (data)
-  Pipeline.send view $ {}
+  Pipeline.send view.in $ {}
     :target :store
     :data data
 Pipeline.for session.out $ \ (data)
-  Pipeline.send view $ {}
+  Pipeline.send view.in $ {}
     :target :session
     :data data
 

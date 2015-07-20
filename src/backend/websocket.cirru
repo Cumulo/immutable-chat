@@ -3,6 +3,7 @@ var
   ws $ require :ws
   Pipeline $ require :../util/pipeline
   differ $ require :./differ
+  shortid $ require :shortid
 
 var inPipeline $ Pipeline.create
 var outPipeline $ Pipeline.create
@@ -12,20 +13,24 @@ var outPipeline $ Pipeline.create
 var register $ {}
 
 var connectionHandler $ \ (socket)
-  var id :fake-id
-  socket.on :message $ \ (action)
-    = action.privateId id
-    Pipeline.send outPipeline action
+  var id $ shortid.generate
+
   = (. register id) socket
   socket.on :close $ \ ()
     = (. register id) null
+
+  socket.on :message $ \ (action)
+    = action.privateId id
+    Pipeline.send outPipeline action
+  Pipeline.send outPipeline $ {}
+    :privateId id
+    :type :private/connect
 
 = exports.setup $ \ (options)
   var wss $ new ws.Server $ {} (:port options.port)
   wss.on :connection connectionHandler
   console.log ":ws server listening at" options.port
 
-Pipeline.for inPipeline $ \ (operations)
-  operations.forEach $ \ (op)
-    var socket $ . register op.sessionId
-    socket.send $ JSON.stringify op
+Pipeline.for inPipeline $ \ (op)
+  var socket $ . register op.id
+  socket.send $ JSON.stringify op.diff

@@ -26,6 +26,6 @@ var Pipeline $ {}
   var internalState initial
   var x1 $ Pipeline.create
   Pipeline.for pipeline $ \ (data)
-    var internalState $ handler data internalState
+    = internalState $ handler data internalState
     Pipeline.send x1 internalState
   return x1
