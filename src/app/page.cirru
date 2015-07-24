@@ -6,6 +6,8 @@ var
   schema $ require :../frontend/schema
 
 var
+  Guest $ React.createFactory $ require :./guest
+  Notifications $ React.createFactory $ require :./notifications
   div $ React.createFactory :div
 
 var pageComponent $ React.createClass $ {}
@@ -13,7 +15,7 @@ var pageComponent $ React.createClass $ {}
 
   :getInitialState $ \ ()
     return $ {}
-      :store null
+      :store schema.store
       :session schema.session
 
   :componentWillMount $ \ ()
@@ -25,7 +27,12 @@ var pageComponent $ React.createClass $ {}
         this.setState $ {} $ :session data.data
 
   :render $ \ ()
-    return $ div null :demo
+    return $ div ({} (:className :app-page))
+      Guest
+      Notifications $ {}
+        :notifications $ ... this.state.store
+          get :state
+          get :notifications
 
 var
   Page $ React.createFactory pageComponent

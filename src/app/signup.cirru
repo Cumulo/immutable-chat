@@ -9,7 +9,7 @@ var
   input $ React.createFactory :input
 
 = module.exports $ React.createClass $ {}
-  :displayName :login
+  :displayName :app-signup
   :mixins $ [] React.addons.LinkedStateMixin
 
   :getInitialState $ \ ()
@@ -17,22 +17,22 @@ var
       :username :
       :password :
 
-  :onSubmit $ \ (event)
+  :onSubmit $ \ ()
     view.action $ {}
-      :type :user/login
+      :type :user/signup
       :data $ {}
         :username this.state.username
         :password this.state.password
 
   :render $ \ ()
-    return $ div ({} (:className :page-login))
+    return $ div ({} (:className :app-signup))
       div ({} (:className :line))
-        span null ":Log in"
+        span null ":Sign Up"
       div ({} (:className :line))
         span null :Username
         input $ {} (:type :text) (:valueLink $ this.linkState :username)
       div ({} (:className :line))
         span null :Password
-        input $ {} (:type :password) (:valueLink $ this.linkState :password)
+        input $ {} (:type :text) (:valueLink $ this.linkState :password)
       div ({} (:className :line))
         div ({} (:className :button) (:onClick this.onSubmit)) :Submit
