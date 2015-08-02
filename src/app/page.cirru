@@ -25,7 +25,7 @@ var pageComponent $ React.createClass $ {}
       return
 
   :render $ \ ()
-    return $ div ({} (:className :app-page))
+    div ({} (:className :app-page))
       Guest
       Notifications $ {}
         :notifications $ ... this.state.store

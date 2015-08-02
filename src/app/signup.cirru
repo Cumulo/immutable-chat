@@ -25,7 +25,7 @@ var
         :password this.state.password
 
   :render $ \ ()
-    return $ div ({} (:className :app-signup))
+    div ({} (:className :app-signup))
       div ({} (:className :line))
         span null :Username
         input $ {} (:type :text) (:valueLink $ this.linkState :username)

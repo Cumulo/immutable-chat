@@ -16,9 +16,9 @@ var T React.PropTypes
     :notifications $ T.instanceOf Immutable.List
 
   :render $ \ ()
-    return $ div ({} (:className :app-notifications))
+    div ({} (:className :app-notifications))
       this.props.notifications.map $ \ (item)
-        return $ div
+        div
           {}
             :key (item.get :id)
             :onClick this.onNotificationClick
