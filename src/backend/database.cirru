@@ -1,14 +1,13 @@
 
 var
   Immutable $ require :immutable
-  Pipeline $ require :../util/pipeline
+  Pipeline $ require :cumulo-pipeline
   schema $ require :./schema
   shortid $ require :shortid
   fs $ require :fs
   path $ require :path
 
-var inPipeline $ Pipeline.create
-= exports.in inPipeline
+= exports.in $ new Pipeline
 
 var dbpath $ path.join __dirname :data.json
 if (fs.existsSync dbpath)
@@ -19,7 +18,7 @@ if (fs.existsSync dbpath)
   do
     var _database $ Immutable.fromJS schema.database
 
-var outPipeline $ Pipeline.reduce inPipeline _database $ \ (action db)
+var outPipeline $ exports.in.reduce _database $ \ (db action)
   switch action.type
     :user/create
       var
@@ -128,5 +127,6 @@ var outPipeline $ Pipeline.reduce inPipeline _database $ \ (action db)
         theState $ thePrivates.get action.privateId
       return $ db.set :privates $ thePrivates.set action.privateId
         theState.set :isFocused false
+  return undefined
 
 = exports.out outPipeline

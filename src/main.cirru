@@ -1,26 +1,24 @@
 
 var
-  session $ require :./frontend/session
   store $ require :./frontend/store
   websocket $ require :./frontend/websocket
   view $ require :./frontend/view
-  Pipeline $ require :./util/pipeline
+  page $ require :./app/page
+  Pipeline $ require :cumulo-pipeline
 
 require :./app/page
+require :origami-ui
+require :react-origami-tabs/src/tabs.css
 
 websocket.setup $ {} (:port 3000)
 
-Pipeline.forward websocket.out store.in
-Pipeline.for store.out $ \ (data)
-  Pipeline.send view.in $ {}
+websocket.out.forward store.in
+view.out.forward websocket.in
+
+store.out.for $ \ (data)
+  page.in.send $ {}
     :target :store
     :data data
-Pipeline.for session.out $ \ (data)
-  Pipeline.send view.in $ {}
-    :target :session
-    :data data
 
-Pipeline.forward view.out websocket.in
-
-Pipeline.for store.out $ \ (data)
+store.out.for $ \ (data)
   console.info $ data.toJS

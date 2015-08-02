@@ -5,18 +5,29 @@ var
 var
   Login $ React.createFactory $ require :./login
   Signup $ React.createFactory $ require :./signup
+  OrigamiTabs $ React.createFactory $ require :react-origami-tabs
   div $ React.createFactory :div
+
+var tag $ \ (className (children))
+  div ({} (:className className)) (... children)
+
+var tabs $ [] ":login" ":signup"
 
 = module.exports $ React.createClass $ {}
   :displayName :app-guest
 
   :getInitialState $ \ ()
     return $ {}
-      :atLogin true
+      :tab $ . tabs 0
+
+  :onSelect $ \ (tab)
+    this.setState $ {} (:tab tab)
 
   :render $ \ ()
-    return $ div ({} (:className :app-guest))
-      div ({} (:className :header)) ":Hello Guest"
-      cond this.state.atLogin
-        Login
-        Signup
+    tag :app-guest
+      tag :guest-board
+        OrigamiTabs $ {} (:tabs tabs) (:tab this.state.tab) (:onSelect this.onSelect)
+        tag :guest-view
+          case this.state.tab
+            :login (Login)
+            :signup (Signup)

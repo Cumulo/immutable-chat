@@ -1,0 +1,7 @@
+
+.app-signup {}
+
+.app-signup .control {
+    display: flex;
+    justify-content: flex-end;
+}

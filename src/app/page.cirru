@@ -1,9 +1,10 @@
 
 var
   React $ require :react
-  Pipeline $ require :../util/pipeline
-  view $ require :../frontend/view
+  Pipeline $ require :cumulo-pipeline
   schema $ require :../frontend/schema
+
+= exports.in $ new Pipeline
 
 var
   Guest $ React.createFactory $ require :./guest
@@ -16,15 +17,12 @@ var pageComponent $ React.createClass $ {}
   :getInitialState $ \ ()
     return $ {}
       :store schema.store
-      :session schema.session
 
   :componentWillMount $ \ ()
-    Pipeline.for view.in $ \\ (data)
+    exports.in.for $ \\ (data)
       if (is data.target :store) $ do
         this.setState $ {} $ :store data.data
-    Pipeline.for view.in $ \\ (data)
-      if (is data.target :session) $ do
-        this.setState $ {} $ :session data.data
+      return
 
   :render $ \ ()
     return $ div ({} (:className :app-page))

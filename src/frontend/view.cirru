@@ -1,17 +1,9 @@
 
 var
   React $ require :react
-  Pipeline $ require :../util/pipeline
+  Pipeline $ require :cumulo-pipeline
 
-var inPipeline $ Pipeline.create
-var outPipeline $ Pipeline.create
-= exports.out outPipeline
-= exports.in inPipeline
+= exports.out $ new Pipeline
 
 = exports.action $ \ (data)
-  Pipeline.send exports.out data
-
-= exports.handle $ \ (data)
-  Pipeline.send exports.out $ {}
-    :type :session
-    :data data
+  exports.out.send data

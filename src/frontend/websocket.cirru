@@ -1,19 +1,17 @@
 
 var
   Immutable $ require :immutable
-  Pipeline $ require :../util/pipeline
+  Pipeline $ require :cumulo-pipeline
 
-var inPipeline $ Pipeline.create
-var outPipeline $ Pipeline.create
-= exports.in inPipeline
-= exports.out outPipeline
+= exports.in $ new Pipeline
+= exports.out $ new Pipeline
 
 = exports.setup $ \ (options)
 
-  Pipeline.for inPipeline $ \ (data)
+  exports.in.for $ \ (data)
     socket.send $ JSON.stringify data
 
   var socket $ new WebSocket $ + :ws://localhost: options.port
   = socket.onmessage $ \ (event)
     var data $ JSON.parse event.data
-    Pipeline.send outPipeline $ Immutable.fromJS data
+    exports.out.send $ Immutable.fromJS data

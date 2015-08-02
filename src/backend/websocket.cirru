@@ -1,14 +1,12 @@
 
 var
   ws $ require :ws
-  Pipeline $ require :../util/pipeline
+  Pipeline $ require :cumulo-pipeline
   differ $ require :./differ
   shortid $ require :shortid
 
-var inPipeline $ Pipeline.create
-var outPipeline $ Pipeline.create
-= exports.in inPipeline
-= exports.out outPipeline
+= exports.in $ new Pipeline
+= exports.out $ new Pipeline
 
 var register $ {}
 
@@ -18,14 +16,16 @@ var connectionHandler $ \ (socket)
   = (. register id) socket
   socket.on :close $ \ ()
     = (. register id) null
-    Pipeline.send outPipeline $ {}
+    exports.out.send $ {}
       :privateId id
       :type :private/disconnect
 
-  socket.on :message $ \ (action)
+  socket.on :message $ \ (rawData)
+    var action $ JSON.parse rawData
     = action.privateId id
-    Pipeline.send outPipeline action
-  Pipeline.send outPipeline $ {}
+    exports.out.send action
+
+  exports.out.send $ {}
     :privateId id
     :type :private/connect
 
@@ -34,11 +34,12 @@ var connectionHandler $ \ (socket)
   wss.on :connection connectionHandler
   console.log ":ws server listening at" options.port
 
-Pipeline.for inPipeline $ \ (op)
+exports.in.for $ \ (op)
   var socket $ . register op.id
   if (? socket)
     do
       socket.send $ JSON.stringify op.diff
     do
       console.log ":missing socket" op
+  return undefined
 

@@ -1,6 +1,6 @@
 
 var
-  Pipeline $ require :../util/pipeline
+  Pipeline $ require :cumulo-pipeline
   Immutable $ require :immutable
   fs $ require :fs
   path $ require :path
@@ -8,10 +8,9 @@ var
 
 var _database $ Immutable.Map
 
-var inPipeline $ Pipeline.create
-= exports.in inPipeline
+= exports.in $ new Pipeline
 
-Pipeline.for inPipeline $ \ (data)
+exports.in.for $ \ (data)
   = _database data
 
 var dbpath $ path.join __dirname :data.json

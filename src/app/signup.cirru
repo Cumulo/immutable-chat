@@ -27,12 +27,10 @@ var
   :render $ \ ()
     return $ div ({} (:className :app-signup))
       div ({} (:className :line))
-        span null ":Sign Up"
-      div ({} (:className :line))
         span null :Username
         input $ {} (:type :text) (:valueLink $ this.linkState :username)
       div ({} (:className :line))
         span null :Password
         input $ {} (:type :text) (:valueLink $ this.linkState :password)
-      div ({} (:className :line))
-        div ({} (:className :button) (:onClick this.onSubmit)) :Submit
+      div ({} (:className ":line control"))
+        div ({} (:className ":button is-attract") (:onClick this.onSubmit)) :Submit

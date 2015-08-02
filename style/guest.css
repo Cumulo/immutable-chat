@@ -1,0 +1,16 @@
+
+.app-guest {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app-guest .guest-board {
+}
+
+.app-guest .guest-view {
+    border: 1px solid hsl(240, 70%, 92%);
+    padding: 0.5em 1em;
+}

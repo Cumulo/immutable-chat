@@ -1,0 +1,7 @@
+
+.app-login {}
+
+.app-login .control {
+    display: flex;
+    justify-content: flex-end;
+}

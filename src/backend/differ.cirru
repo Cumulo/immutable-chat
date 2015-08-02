@@ -1,20 +1,18 @@
 
 var
-  Pipeline $ require :../util/pipeline
+  Pipeline $ require :cumulo-pipeline
   Immutable $ require :immutable
   diff $ require :immutablediff
   expand
 
-var inPipeline $ Pipeline.create
-var outPipeline $ Pipeline.create
-= exports.in inPipeline
-= exports.out outPipeline
+= exports.in $ new Pipeline
+= exports.out $ new Pipeline
 = exports.setup $ \ (options)
   = expand options.expand
 
 var _cache $ Immutable.fromJS $ {}
 
-Pipeline.for inPipeline $ \ (db)
+exports.in.for $ \ (db)
   var
     theTables $ db.get :tables
     thePrivates $ db.get :privates
@@ -32,7 +30,7 @@ Pipeline.for inPipeline $ \ (db)
         var oldTree $ or
           theCache.get :tree
           Immutable.Map
-        Pipeline.send outPipeline $ object
+        exports.out.send $ object
           :id $ state.get :id
           :diff $ diff oldTree newTree
         = _cache $ _cache.set (state.get :id) $ ... theCache

@@ -1,15 +1,12 @@
 
 var
   Immutable $ require :immutable
-  Pipeline $ require :../util/pipeline
+  Pipeline $ require :cumulo-pipeline
   patch $ require :immutablepatch
 
-var inPipeline $ Pipeline.create
-= exports.in inPipeline
+= exports.in $ new Pipeline
 
 var _store $ Immutable.Map
 
-var outPipeline $ Pipeline.reduce inPipeline _store $ \ (diff store)
-  return $ patch store diff
-
-= exports.out outPipeline
+= exports.out $ exports.in.reduce _store $ \ (store diff)
+  patch store diff

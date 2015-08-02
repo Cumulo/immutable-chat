@@ -5,7 +5,7 @@ var
   expand $ require :./backend/expand
   websocket $ require :./backend/websocket
   persistent $ require :./backend/persistent
-  Pipeline $ require :./util/pipeline
+  Pipeline $ require :cumulo-pipeline
   colors $ require :colors
 
 websocket.setup $ {}
@@ -14,13 +14,13 @@ websocket.setup $ {}
 differ.setup $ {}
   :expand expand
 
-Pipeline.forward websocket.out database.in
-Pipeline.forward database.out differ.in
-Pipeline.forward differ.out websocket.in
-Pipeline.forward database.out persistent.in
+websocket.out.forward database.in
+database.out.forward differ.in
+differ.out.forward websocket.in
+database.out.forward persistent.in
 
-Pipeline.for websocket.out $ \ (data)
+websocket.out.for $ \ (data)
   console.log (colors.red :websocket.out) data
 
-Pipeline.for differ.out $ \ (data)
+differ.out.for $ \ (data)
   console.log (colors.red :differ.out) data
