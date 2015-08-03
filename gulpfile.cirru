@@ -31,8 +31,8 @@ gulp.task :script $ \ ()
     script $ require :gulp-cirru-script
 
   ... gulp
-    src :src/*.cirru
-    pipe $ script
+    src :src/**/*.cirru
+    pipe $ script $ {} (:es6 true)
     pipe $ gulp.dest :lib/
 
 gulp.task :html $ \ (cb)

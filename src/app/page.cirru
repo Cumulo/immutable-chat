@@ -3,12 +3,13 @@ var
   React $ require :react
   Pipeline $ require :cumulo-pipeline
   schema $ require :../frontend/schema
+  view $ require :../frontend/view
 
 = exports.in $ new Pipeline
 
 var
   Guest $ React.createFactory $ require :./guest
-  Notifications $ React.createFactory $ require :./notifications
+  Notis $ React.createFactory $ require :react-origami-notifications
   div $ React.createFactory :div
 
 var pageComponent $ React.createClass $ {}
@@ -24,13 +25,15 @@ var pageComponent $ React.createClass $ {}
         this.setState $ {} $ :store data.data
       return
 
+  :onNotisClick $ \ (id)
+    view.action $ {} (:type :state/check) (:data id)
+
   :render $ \ ()
     div ({} (:className :app-page))
       Guest
-      Notifications $ {}
-        :notifications $ ... this.state.store
-          get :state
-          get :notifications
+      Notis $ {}
+        :notifications $ this.state.store.getIn $ [] :state :notifications
+        :onClick this.onNotisClick
 
 var
   Page $ React.createFactory pageComponent

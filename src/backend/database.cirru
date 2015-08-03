@@ -22,7 +22,7 @@ if (fs.existsSync dbpath)
   var
     stateId action.stateId
   case action.type
-    :user/create
+    :user/signup
       db.updateIn ([] :tables :users) $ \ (users)
         users.push $ schema.user.merge
           Immutable.fromJS $ {}
@@ -99,11 +99,17 @@ if (fs.existsSync dbpath)
     :state/blur
       db.updateIn ([] :states stateId :isFocused) $ \ (prev) false
 
+    :state/check
+      db.updateIn ([] :states stateId :notifications) $ \ (notifications)
+        notifications.filter $ \ (notification)
+          isnt (notification.get :id) action.data
+
     :user/login
       var
-        users $ db.getIn $ [] :tables :users
-        user $ users.find $ \ (user)
-          is (user.get :name) action.data.name
+        user $ ... db
+          getIn $ [] :tables :users
+          find $ \ (user)
+            is (user.get :name) action.data.name
       cond (? user)
         cond (is (user.get :password) action.data.password)
           ... db
@@ -114,16 +120,15 @@ if (fs.existsSync dbpath)
             updateIn ([] :states stateId :userId) $ \ (prev)
               user.get :id
           db.updateIn ([] :states stateId :notifications) $ \ (notifications)
-            notifications.merge
+            notifications.push
               schema.notification.merge $ Immutable.fromJS $ {}
                 :id (shortid.generate)
-                :content ":wrong password"
-                :type :error
+                :text ":wrong password"
+                :type :fail
         db.updateIn ([] :states stateId :notifications) $ \ (notifications)
           notifications.push
             schema.notification.merge $ Immutable.fromJS $ {}
               :id (shortid.generate)
-              :content ":no such user"
-              :type :error
-    :user/signup db
+              :text ":no such user"
+              :type :fail
     else db

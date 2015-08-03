@@ -33,6 +33,7 @@
     "immutablepatch": "^0.2.0",
     "origami-ui": "0.0.1",
     "react": "^0.13.3",
+    "react-origami-notifications": "0.0.1",
     "react-origami-tabs": "0.0.1",
     "shortid": "^2.2.2",
     "ws": "^0.7.2"

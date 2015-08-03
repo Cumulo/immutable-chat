@@ -6,6 +6,7 @@ var
 
 var
   div $ React.createFactory :div
+  span $ React.createFactory :span
 
 var T React.PropTypes
 
@@ -17,7 +18,7 @@ var T React.PropTypes
 
   :render $ \ ()
     div ({} (:className :app-notifications))
-      this.props.notifications.map $ \ (item)
+      this.props.notifications.map $ \\ (item)
         div
           {}
             :key (item.get :id)
