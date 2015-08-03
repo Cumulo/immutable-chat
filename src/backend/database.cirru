@@ -20,40 +20,36 @@ if (fs.existsSync dbpath)
 
 = exports.out $ exports.in.reduce _database $ \ (db action)
   var
-    theStates $ db.get :states
-    theTables $ db.get :tables
-    theState $ theStates.get action.stateId
-    theNotis $ theState.get :notifications
-    theUsers $ theTables.get :users
-    theBuffers $ theTables.get :buffers
-    theMessages $ theTables.get :messages
     stateId action.stateId
   case action.type
     :user/create
-      db.set :tables $ theTables.set :users
-        theUsers.push $ schema.user.merge
+      db.updateIn ([] :tables :users) $ \ (users)
+        users.push $ schema.user.merge
           Immutable.fromJS $ {}
             :id (shortid.generate)
             :name action.data.name
             :avatar action.data.avatar
 
     :user/update
-      db.set :tables $ theTables.set :users
-        theUsers.map $ \ (aUser)
-          return $ aUser.merge
-            Immutable.fromJS action.data
+      var
+        newUser $ Immutable.fromJS action.data
+      db.updateIn ([] :tables :users) $ \ (users)
+        users.map $ \ (aUser)
+          cond (is (aUser.get :id) (newUser.get :id))
+            aUser.merge newUser
+            , aUser
 
     :buffer/create
-      db.set :tables $ theTables.set :buffers
-        theBuffers.push $ schema.buffer.merge
+      db.updateIn ([] :tables :buffers) $ \ (buffers)
+        buffers.push $ schema.buffer.merge
           Immutable.fromJS action.data
 
     :buffer/update
       var
         now $ new Date
-      db.set :tables $ theTables.set :buffers
-        theBuffers.map $ \ (aBuffer)
-          return $ cond (is (aBuffer.get :id) action.data.id)
+      db.updateIn ([] :tables :buffers) $ \ (buffers)
+        buffers.map $ \ (aBuffer)
+          cond (is (aBuffer.get :id) action.data.id)
             ... aBuffer
               merge $ Immutable.fromJS action.data
               set :time (now.toISOString)
@@ -61,75 +57,70 @@ if (fs.existsSync dbpath)
 
     :buffer/finish
       var
-        theBuffer $ theBuffers.find $ \ (aBuffer)
-          return $ is (aBuffer.get :id) action.data
         now $ new Date
-      db.set :tables $ ... theTables
-        set :buffers $ theBuffers.filter $ \ (aBuffer)
-          isnt (aBuffer.get :id) action.data
-        set :messages $ theMessages.push
-          ... schema.message
+      ... db
+        updateIn ([] :tables :buffers) $ \ (buffers)
+          buffers.filter $ \ (aBuffer)
+            isnt (aBuffer.get :id) action.data
+        updateIn ([] :tables :messages) $ \ (messages)
+          messages.push $ ... schema.message
             merge aBuffer
             set :time (now.toISOString)
 
     :message/promote
-      db.set :tables $ theTables.set :messages
-        theMessages.map $ \ (aMessage)
-          return $ cond (is (aMessage.get :id) action.data)
+      db.updateIn ([] :tables :messages) $ \ (messages)
+        messages.map $ \ (aMessage)
+          cond (is (aMessage.get :id) action.data)
             aMessage.set :isTopic true
             , aMessage
 
     :state/connect
       ... db
-        set :states $ theStates.set action.stateId
-          schema.state.set :id action.stateId
-        set :tables $ theTables.set :users
-          theUsers.map $ \ (aUser)
-            return $ cond (is (aUser.get :id) action.stateId)
+        updateIn ([] :states stateId) $ \ (prev)
+          schema.state.set :id stateId
+        updateIn ([] :tables :users) $ \ (users)
+          users.map $ \ (aUser)
+            cond (is (aUser.get :id) stateId)
               aUser.set :isOnline true
               , aUser
 
     :state/disconnect
       ... db
-        set :states $ theStates.delete action.stateId
-        set :tables $ theTables.set :users
-          theUsers.map $ \ (aUser)
-            return $ cond (is (aUser.get :id) action.stateId)
+        deleteIn $ [] :states stateId
+        updateIn ([] :tables :users) $ \ (users)
+          users.map $ \ (aUser)
+            cond (is (aUser.get :id) stateId)
               aUser.set :isOnline false
               , aUser
 
     :state/focus
-      db.updateIn ([] :states action.stateId :isFocused)
-        \ (prev) true
+      db.updateIn ([] :states stateId :isFocused) $ \ (prev) true
 
     :state/blur
-      db.updateIn ([] :states action.stateId :isFocused)
-        \ (prev) false
+      db.updateIn ([] :states stateId :isFocused) $ \ (prev) false
 
     :user/login
       var
-        theUser $ theUsers.find $ \ (user)
+        users $ db.getIn $ [] :tables :users
+        user $ users.find $ \ (user)
           is (user.get :name) action.data.name
-      cond (? theUser)
-        cond (is (theUser.get :password) action.data.password)
+      cond (? user)
+        cond (is (user.get :password) action.data.password)
           ... db
-            updateIn ([] :tables :users) $ \ (theUsers) $ theUsers.map $ \ (user)
+            updateIn ([] :tables :users) $ \ (users) $ users.map $ \ (user)
               cond (is user.name action.data.name)
                 user.set :online true
                 , user
-            updateIn
-              [] :states action.stateId :userId
-              theUser.get :id
-          db.updateIn
-            [] :states action.stateId :notifications
-            \ (theNotis) $ theNotis.merge
+            updateIn ([] :states stateId :userId) $ \ (prev)
+              user.get :id
+          db.updateIn ([] :states stateId :notifications) $ \ (notifications)
+            notifications.merge
               schema.notification.merge $ Immutable.fromJS $ {}
                 :id (shortid.generate)
                 :content ":wrong password"
                 :type :error
-        db.updateIn
-          [] :states action.stateId :notifications
-          \ (theNotis) $ theNotis.push
+        db.updateIn ([] :states stateId :notifications) $ \ (notifications)
+          notifications.push
             schema.notification.merge $ Immutable.fromJS $ {}
               :id (shortid.generate)
               :content ":no such user"
