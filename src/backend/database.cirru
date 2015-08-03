@@ -13,17 +13,23 @@ var dbpath $ path.join __dirname :data.json
 if (fs.existsSync dbpath)
   do
     var content $ JSON.parse $ fs.readFileSync dbpath :utf8
-    = content.privates $ {}
+    = content.states $ {}
     var _database $ Immutable.fromJS content
   do
     var _database $ Immutable.fromJS schema.database
 
-var outPipeline $ exports.in.reduce _database $ \ (db action)
+= exports.out $ exports.in.reduce _database $ \ (db action)
+  var
+    theStates $ db.get :states
+    theTables $ db.get :tables
+    theState $ theStates.get action.stateId
+    theNotis $ theState.get :notifications
+    theUsers $ theTables.get :users
+    theBuffers $ theTables.get :buffers
+    theMessages $ theTables.get :messages
+    stateId action.stateId
   case action.type
     :user/create
-      var
-        theTables $ db.get :tables
-        theUsers $ theTables.get :users
       db.set :tables $ theTables.set :users
         theUsers.push $ schema.user.merge
           Immutable.fromJS $ {}
@@ -32,26 +38,18 @@ var outPipeline $ exports.in.reduce _database $ \ (db action)
             :avatar action.data.avatar
 
     :user/update
-      var
-        theTables $ db.get :tables
-        theUsers $ theTables.get :users
       db.set :tables $ theTables.set :users
         theUsers.map $ \ (aUser)
           return $ aUser.merge
             Immutable.fromJS action.data
 
     :buffer/create
-      var
-        theTables $ db.get :tables
-        theBuffers $ theTables.get :buffers
       db.set :tables $ theTables.set :buffers
         theBuffers.push $ schema.buffer.merge
           Immutable.fromJS action.data
 
     :buffer/update
       var
-        theTables $ db.get :tables
-        theBuffers $ theTables.get :buffers
         now $ new Date
       db.set :tables $ theTables.set :buffers
         theBuffers.map $ \ (aBuffer)
@@ -63,11 +61,8 @@ var outPipeline $ exports.in.reduce _database $ \ (db action)
 
     :buffer/finish
       var
-        theTables $ db.get :tables
-        theBuffers $ theTables.get :buffers
         theBuffer $ theBuffers.find $ \ (aBuffer)
           return $ is (aBuffer.get :id) action.data
-        theMessages $ theTables.get :messages
         now $ new Date
       db.set :tables $ ... theTables
         set :buffers $ theBuffers.filter $ \ (aBuffer)
@@ -78,54 +73,66 @@ var outPipeline $ exports.in.reduce _database $ \ (db action)
             set :time (now.toISOString)
 
     :message/promote
-      var
-        theTables $ db.get :tables
-        theMessages $ theTables.get :messages
       db.set :tables $ theTables.set :messages
         theMessages.map $ \ (aMessage)
           return $ cond (is (aMessage.get :id) action.data)
             aMessage.set :isTopic true
             , aMessage
 
-    :private/connect
-      var
-        thePrivates $ db.get :privates
-        theTables $ db.get :tables
-        theUsers $ theTables.get :users
+    :state/connect
       ... db
-        set :privates $ thePrivates.set action.privateId
-          schema.private.set :id action.privateId
+        set :states $ theStates.set action.stateId
+          schema.state.set :id action.stateId
         set :tables $ theTables.set :users
           theUsers.map $ \ (aUser)
-            return $ cond (is (aUser.get :id) action.privateId)
+            return $ cond (is (aUser.get :id) action.stateId)
               aUser.set :isOnline true
               , aUser
 
-    :private/disconnect
-      var
-        thePrivates $ db.get :privates
-        theTables $ db.get :tables
-        theUsers $ theTables.get :users
+    :state/disconnect
       ... db
-        set :privates $ thePrivates.delete action.privateId
+        set :states $ theStates.delete action.stateId
         set :tables $ theTables.set :users
           theUsers.map $ \ (aUser)
-            return $ cond (is (aUser.get :id) action.privateId)
+            return $ cond (is (aUser.get :id) action.stateId)
               aUser.set :isOnline false
               , aUser
 
-    :private/focus
-      var
-        thePrivates $ db.get :privates
-        theState $ thePrivates.get action.privateId
-      db.set :privates $ thePrivates.set action.privateId
-        theState.set :isFocused true
+    :state/focus
+      db.updateIn ([] :states action.stateId :isFocused)
+        \ (prev) true
 
-    :private/blur
-      var
-        thePrivates $ db.get :privates
-        theState $ thePrivates.get action.privateId
-      db.set :privates $ thePrivates.set action.privateId
-        theState.set :isFocused false
+    :state/blur
+      db.updateIn ([] :states action.stateId :isFocused)
+        \ (prev) false
 
-= exports.out outPipeline
+    :user/login
+      var
+        theUser $ theUsers.find $ \ (user)
+          is (user.get :name) action.data.name
+      cond (? theUser)
+        cond (is (theUser.get :password) action.data.password)
+          ... db
+            updateIn ([] :tables :users) $ \ (theUsers) $ theUsers.map $ \ (user)
+              cond (is user.name action.data.name)
+                user.set :online true
+                , user
+            updateIn
+              [] :states action.stateId :userId
+              theUser.get :id
+          db.updateIn
+            [] :states action.stateId :notifications
+            \ (theNotis) $ theNotis.merge
+              schema.notification.merge $ Immutable.fromJS $ {}
+                :id (shortid.generate)
+                :content ":wrong password"
+                :type :error
+        db.updateIn
+          [] :states action.stateId :notifications
+          \ (theNotis) $ theNotis.push
+            schema.notification.merge $ Immutable.fromJS $ {}
+              :id (shortid.generate)
+              :content ":no such user"
+              :type :error
+    :user/signup db
+    else db

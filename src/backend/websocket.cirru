@@ -17,17 +17,17 @@ var connectionHandler $ \ (socket)
   socket.on :close $ \ ()
     = (. register id) null
     exports.out.send $ {}
-      :privateId id
-      :type :private/disconnect
+      :stateId id
+      :type :state/disconnect
 
   socket.on :message $ \ (rawData)
     var action $ JSON.parse rawData
-    = action.privateId id
+    = action.stateId id
     exports.out.send action
 
   exports.out.send $ {}
-    :privateId id
-    :type :private/connect
+    :stateId id
+    :type :state/connect
 
 = exports.setup $ \ (options)
   var wss $ new ws.Server $ {} (:port options.port)

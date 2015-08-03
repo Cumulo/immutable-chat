@@ -7,4 +7,4 @@ var
   :topics $ []
   :messages $ []
   :onlineUsers $ []
-  :state $ backend.private.toJS
+  :state $ backend.state.toJS

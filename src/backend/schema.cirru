@@ -7,15 +7,17 @@ var
     :users $ []
     :messages $ []
     :buffers $ []
-  :privates $ {}
+  :states $ {}
 
 = exports.user $ Immutable.fromJS $ {}
+  :id null
   :name null
   :password :password
   :avatar null
   :isOnline false
 
-= exports.private $ Immutable.fromJS $ {}
+= exports.state $ Immutable.fromJS $ {}
+  :id null
   :isFocused false
   :topicId null
   :notifications $ []
@@ -36,3 +38,8 @@ var
   :time null
   :text null
   :isTopic false
+
+= exports.notification $ Immutable.fromJS $ {}
+  :id null
+  :content :empty
+  :type :info

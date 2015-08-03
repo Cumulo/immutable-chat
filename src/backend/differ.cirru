@@ -15,8 +15,8 @@ var _cache $ Immutable.fromJS $ {}
 exports.in.for $ \ (db)
   var
     theTables $ db.get :tables
-    thePrivates $ db.get :privates
-  thePrivates.forEach $ \ (state)
+    theStates $ db.get :states
+  theStates.forEach $ \ (state)
     var
       theCache $ or
         _cache.get (state.get :id)

@@ -14,13 +14,14 @@ websocket.setup $ {}
 differ.setup $ {}
   :expand expand
 
-websocket.out.forward database.in
-database.out.forward differ.in
-differ.out.forward websocket.in
-database.out.forward persistent.in
-
 websocket.out.for $ \ (data)
   console.log (colors.red :websocket.out) data
 
 differ.out.for $ \ (data)
   console.log (colors.red :differ.out) data
+
+websocket.out.forward database.in
+database.out.forward differ.in
+differ.out.forward websocket.in
+database.out.forward persistent.in
+
