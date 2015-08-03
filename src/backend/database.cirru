@@ -7,6 +7,9 @@ var
   fs $ require :fs
   path $ require :path
 
+var
+  fromJS Immutable.fromJS
+
 = exports.in $ new Pipeline
 
 var dbpath $ path.join __dirname :data.json
@@ -14,25 +17,46 @@ if (fs.existsSync dbpath)
   do
     var content $ JSON.parse $ fs.readFileSync dbpath :utf8
     = content.states $ {}
-    var _database $ Immutable.fromJS content
+    var _database $ fromJS content
   do
-    var _database $ Immutable.fromJS schema.database
+    var _database $ fromJS schema.database
 
 = exports.out $ exports.in.reduce _database $ \ (db action)
   var
     stateId action.stateId
   case action.type
     :user/signup
-      db.updateIn ([] :tables :users) $ \ (users)
-        users.push $ schema.user.merge
-          Immutable.fromJS $ {}
+      var
+        newUser $ ... schema.user
+          merge $ fromJS action.data
+          merge $ fromJS $ {}
             :id (shortid.generate)
-            :name action.data.name
-            :avatar action.data.avatar
+            :isOnline true
+        name $  ... newUser (get :name) (trim)
+        isNameEmpty $ is name.length 0
+        oldUser $ ... db (getIn $ [] :tables :users) $ find $ \ (user)
+          is (user.get :name) name
+        isUserExisted $ ? oldUser
+      case true
+        isNameEmpty $ db.updateIn ([] :states stateId :notifications) $ \ (notifications)
+          notifications.push $ schema.notification.merge $ fromJS $ {}
+            :id (shortid.generate)
+            :text ":Name cannot be empty"
+            :type :fail
+        isUserExisted $ db.updateIn ([] :states stateId :notifications) $ \ (notifications)
+          notifications.push $ schema.notification.merge $ fromJS $ {}
+            :id (shortid.generate)
+            :text ":Name already token"
+            :type :fail
+        else $ ... db
+          updateIn ([] :tables :users) $ \ (users)
+            users.push newUser
+          updateIn ([] :states stateId) $ \ (state)
+            state.set :userId (newUser.get :id)
 
     :user/update
       var
-        newUser $ Immutable.fromJS action.data
+        newUser $ fromJS action.data
       db.updateIn ([] :tables :users) $ \ (users)
         users.map $ \ (aUser)
           cond (is (aUser.get :id) (newUser.get :id))
@@ -42,7 +66,7 @@ if (fs.existsSync dbpath)
     :buffer/create
       db.updateIn ([] :tables :buffers) $ \ (buffers)
         buffers.push $ schema.buffer.merge
-          Immutable.fromJS action.data
+          fromJS action.data
 
     :buffer/update
       var
@@ -51,7 +75,7 @@ if (fs.existsSync dbpath)
         buffers.map $ \ (aBuffer)
           cond (is (aBuffer.get :id) action.data.id)
             ... aBuffer
-              merge $ Immutable.fromJS action.data
+              merge $ fromJS action.data
               set :time (now.toISOString)
             , aBuffer
 
@@ -106,12 +130,13 @@ if (fs.existsSync dbpath)
 
     :user/login
       var
+        maybeUser $ fromJS action.data
         user $ ... db
           getIn $ [] :tables :users
           find $ \ (user)
-            is (user.get :name) action.data.name
+            is (user.get :name) (maybeUser.get :name)
       cond (? user)
-        cond (is (user.get :password) action.data.password)
+        cond (is (user.get :password) (maybeUser.get :password))
           ... db
             updateIn ([] :tables :users) $ \ (users) $ users.map $ \ (user)
               cond (is user.name action.data.name)
@@ -121,13 +146,13 @@ if (fs.existsSync dbpath)
               user.get :id
           db.updateIn ([] :states stateId :notifications) $ \ (notifications)
             notifications.push
-              schema.notification.merge $ Immutable.fromJS $ {}
+              schema.notification.merge $ fromJS $ {}
                 :id (shortid.generate)
                 :text ":wrong password"
                 :type :fail
         db.updateIn ([] :states stateId :notifications) $ \ (notifications)
           notifications.push
-            schema.notification.merge $ Immutable.fromJS $ {}
+            schema.notification.merge $ fromJS $ {}
               :id (shortid.generate)
               :text ":no such user"
               :type :fail

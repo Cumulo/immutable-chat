@@ -41,5 +41,5 @@ var
 
 = exports.notification $ Immutable.fromJS $ {}
   :id null
-  :content :empty
+  :text :empty
   :type :info

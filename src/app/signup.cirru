@@ -14,21 +14,21 @@ var
 
   :getInitialState $ \ ()
     return $ {}
-      :username :
+      :name :
       :password :
 
   :onSubmit $ \ ()
     view.action $ {}
       :type :user/signup
       :data $ {}
-        :username this.state.username
+        :name this.state.name
         :password this.state.password
 
   :render $ \ ()
     div ({} (:className :app-signup))
       div ({} (:className :line))
         span null :Username
-        input $ {} (:type :text) (:valueLink $ this.linkState :username)
+        input $ {} (:type :text) (:valueLink $ this.linkState :name)
       div ({} (:className :line))
         span null :Password
         input $ {} (:type :text) (:valueLink $ this.linkState :password)

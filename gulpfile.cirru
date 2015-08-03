@@ -14,7 +14,7 @@ gulp.task :rsync $ \ (cb)
   wrapper.rsync
     object
       :ssh true
-      :src $ array :index.html :build
+      :src $ array :index.html :build :images :style
       :recursive true
       :args $ array :--verbose
       :dest :tiye:~/repo/workflow/

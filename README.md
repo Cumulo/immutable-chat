@@ -1,25 +1,20 @@
 
-Workflow based on Webpack & CirruScript
+Immutable Chat
 ----
 
-Scaffold for personal projects.
+Small chat app for experiment purpose.
 
-### Usage
+### Develop
 
-* Development
+Start the server
 
-```text
-npm i
-gulp html
-webpack-dev-server --hot
+```
+cirru-script src/server.cirru
 ```
 
-* Production
+Build Web app:
 
-```text
-gulp buld
-gulp rsync
-```
+https://github.com/mvc-works/webpack-workflow
 
 ### License
 

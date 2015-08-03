@@ -8,10 +8,10 @@ var
     stir.doctype
     html null
       head null
-        title null :Workflow
+        title null :Chat
         meta $ object (:charset :utf-8)
         link $ object (:rel :icon)
-          :href :http://logo.cirru.org/cirru-32x32.png
+          :href :images/chat.png
         link $ object (:rel :stylesheet)
           :href :./style/main.css
         script $ object (:src data.vendor) (:defer true)
