@@ -22,7 +22,7 @@ var tag $ \ (className (children))
 
   :onSubmit $ \ (event)
     view.action $ {}
-      :type :user/login
+      :type :account/login
       :data $ {}
         :username this.state.username
         :password this.state.password

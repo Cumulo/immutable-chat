@@ -19,7 +19,7 @@ var
 
   :onSubmit $ \ ()
     view.action $ {}
-      :type :user/signup
+      :type :account/signup
       :data $ {}
         :name this.state.name
         :password this.state.password
