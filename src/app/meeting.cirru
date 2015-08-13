@@ -15,9 +15,13 @@ var
 = module.exports $ React.createClass $ {}
   :displayName :app-meeting
 
+  :propTypes $ {}
+    :store $ React.PropTypes.instanceOf Immutable.Map
+
   :render $ \ ()
     div ({} (:className :app-meeting))
-      TopicList
+      TopicList $ {}
+        :topics $ this.props.store.get :topics
       MessageList
       MemberList
 

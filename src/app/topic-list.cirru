@@ -6,7 +6,6 @@ var
 
 var
   Topic $ React.createFactory $ require :./topic
-  TopicHeader $ React.createFactory $ require :./topic-header
 
 var
   div $ React.createFactory :div
@@ -14,6 +13,10 @@ var
 = module.exports $ React.createClass $ {}
   :displayName :topic-list
 
+  :propTypes $ {}
+    :topics $ React.PropTypes.instanceOf Immutable.List
+
   :render $ \ ()
     div ({} (:className :topic-list))
-      , :topic-list
+      this.props.topics.map $ \ (aTopic)
+        Topic $ {} (:topic aTopic) (:key $ aTopic.get :id)

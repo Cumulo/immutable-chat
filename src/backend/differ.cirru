@@ -13,10 +13,7 @@ var
 var _cache $ Immutable.fromJS $ {}
 
 exports.in.for $ \ (db)
-  var
-    theTables $ db.get :tables
-    theStates $ db.get :states
-  theStates.forEach $ \ (state)
+  ... db (get :states) $ forEach $ \ (state)
     var
       theCache $ or
         _cache.get (state.get :id)
@@ -26,7 +23,7 @@ exports.in.for $ \ (db)
         isnt (theCache.get :db) db
         isnt (theCache.get :state) state
       do
-        var newTree $ expand theTables state
+        var newTree $ expand db state
         var oldTree $ or
           theCache.get :tree
           Immutable.Map

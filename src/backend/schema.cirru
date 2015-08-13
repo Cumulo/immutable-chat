@@ -7,7 +7,7 @@ var
   :id null
   :name null
   :password :password
-  :avatar null
+  :avatar :http://tp2.sinaimg.cn/1402618461/180/0/1
   :isOnline false
 
 = exports.state $ Immutable.fromJS $ {}
@@ -28,7 +28,7 @@ var
 = exports.message $ Immutable.fromJS $ {}
   :id null
   :topidId null
-  :autherId null
+  :authorId null
   :time null
   :text null
   :isTopic false

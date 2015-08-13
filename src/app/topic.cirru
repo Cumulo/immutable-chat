@@ -6,10 +6,14 @@ var
 
 var
   div $ React.createFactory :div
+  img $ React.createFactory :img
 
 = module.exports $ React.createClass $ {}
   :displayName :app-topic
 
+  :propTypes $ {}
+    :topic $ React.PropTypes.instanceOf Immutable.Map
+
   :render $ \ ()
     div ({} (:className :app-topic))
-      , :app-topic
+      img ({} (:src $ this.props.topic.get :avatar))

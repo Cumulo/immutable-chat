@@ -2,24 +2,28 @@
 var
   Immutable $ require :immutable
 
-= module.exports $ \ (tables state)
-  var
-    theTopics $ ... tables
-      get :messages
+= module.exports $ \ (db state)
+  Immutable.Map $ {}
+    :topics $ ... db
+      getIn $ [] :tables :messages
+      filter $ \ (aMessage) (aMessage.get :isTopic)
+      map $ \ (aMessage)
+        var theUser $ ... db
+          getIn $ [] :tables :users
+          find $ \ (aUser)
+            console.log (aUser.get :id) (aMessage.get :authorId)
+            is (aUser.get :id) (aMessage.get :authorId)
+        console.log :theUser theUser
+        aMessage.set :userRef theUser
+    :members $ ... db
+      getIn $ [] :tables :users
+      filter $ \ (aUser) (aUser.get :isOnline)
+    :messages $ ... db
+      getIn $ [] :tables :messages
       filter $ \ (aMessage)
-        return $ aMessage.get :isTopic
-    theOnline $ ... tables
-      get :users
-      filter $ \ (aUser)
-        return $ aUser.get :isOnline
-    theMessages $ cond (state.get :topicId)
-      ... tables
-        get :messages
-        filter $ \ (aMessage)
-          return $ is (aMessage.get id) (state.get :topicId)
-      Immutable.List
-  return $ Immutable.Map $ {}
-    :topics theTopics
-    :onlineUsers theOnline
-    :messages theMessages
+        is (aMessage.get :id) (state.get :topicId)
+      map $ \ (aMessage)
+        var theUser $ ... db (getIn $ [] :tables :users)
+          find $ \ (aUser) $ is (aUser.get :id) (aMessage.get :authorId)
+        aMessage.set :userRef theUser
     :state state

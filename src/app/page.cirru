@@ -35,7 +35,7 @@ var pageComponent $ React.createClass $ {}
       get :userId
     div ({} (:className :app-page))
       cond isUserLogined
-        Meeting
+        Meeting $ {} (:store this.state.store)
         Guest
       Notis $ {}
         :notifications $ this.state.store.getIn $ [] :state :notifications
