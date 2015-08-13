@@ -40,24 +40,30 @@ var
       getIn $ [] :tables :users
       find $ \ (user)
         is (user.get :name) (maybeUser.get :name)
-  cond (? user)
-    cond (is (user.get :password) (maybeUser.get :password))
-      ... db
-        updateIn ([] :tables :users) $ \ (users) $ users.map $ \ (user)
-          cond (is user.name action.data.name)
-            user.set :online true
-            , user
-        updateIn ([] :states action.stateId :userId) $ \ (prev)
-          user.get :id
-      db.updateIn ([] :states action.stateId :notifications) $ \ (notifications)
-        notifications.push
-          schema.notification.merge $ Immutable.fromJS $ {}
-            :id (shortid.generate)
-            :text ":wrong password"
-            :type :fail
-    db.updateIn ([] :states action.stateId :notifications) $ \ (notifications)
+  var noUser $ not $ ? user
+  var isPasswordMatch false
+  if (not noUser) $ do
+    = isPasswordMatch $ is (user.get :password) (maybeUser.get :password)
+  console.log :login noUser isPasswordMatch
+  case true
+    noUser $ db.updateIn ([] :states action.stateId :notifications) $ \ (notifications)
       notifications.push
         schema.notification.merge $ Immutable.fromJS $ {}
           :id (shortid.generate)
           :text ":no such user"
           :type :fail
+
+    isPasswordMatch $ ... db
+      updateIn ([] :tables :users) $ \ (users) $ users.map $ \ (user)
+        cond (is user.name action.data.name)
+          user.set :online true
+          , user
+      updateIn ([] :states action.stateId :userId) $ \ (prev)
+        user.get :id
+
+    else $ db.updateIn ([] :states action.stateId :notifications) $ \ (notifications)
+        notifications.push
+          schema.notification.merge $ Immutable.fromJS $ {}
+            :id (shortid.generate)
+            :text ":wrong password"
+            :type :fail

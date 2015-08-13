@@ -17,21 +17,21 @@ var tag $ \ (className (children))
 
   :getInitialState $ \ ()
     return $ {}
-      :username :
+      :name :
       :password :
 
   :onSubmit $ \ (event)
     view.action $ {}
       :type :account/login
       :data $ {}
-        :username this.state.username
+        :name this.state.name
         :password this.state.password
 
   :render $ \ ()
     return $ div ({} (:className :app-login))
       tag :line
         span null :Username
-        input $ {} (:type :text) (:valueLink $ this.linkState :username)
+        input $ {} (:type :text) (:valueLink $ this.linkState :name)
       tag :line
         span null :Password
         input $ {} (:type :password) (:valueLink $ this.linkState :password)
