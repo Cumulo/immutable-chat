@@ -15,3 +15,5 @@ var
   = socket.onmessage $ \ (event)
     var data $ JSON.parse event.data
     exports.out.send $ Immutable.fromJS data
+
+  = socket.onopen options.onopen

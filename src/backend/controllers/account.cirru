@@ -44,7 +44,7 @@ var
   var isPasswordMatch false
   if (not noUser) $ do
     = isPasswordMatch $ is (user.get :password) (maybeUser.get :password)
-  console.log :login noUser isPasswordMatch
+
   case true
     noUser $ db.updateIn ([] :states action.stateId :notifications) $ \ (notifications)
       notifications.push
@@ -55,11 +55,16 @@ var
 
     isPasswordMatch $ ... db
       updateIn ([] :tables :users) $ \ (users) $ users.map $ \ (user)
-        cond (is user.name action.data.name)
+        cond (is (user.get :name) (maybeUser.get :name))
           user.set :online true
           , user
       updateIn ([] :states action.stateId :userId) $ \ (prev)
         user.get :id
+      updateIn ([] :states action.stateId :notifications) $ \ (notifications)
+        notifications.push
+          schema.notification.merge $ Immutable.fromJS $ {}
+            :id (shortid.generate)
+            :text $ + ":Welcome, " (user.get :name)
 
     else $ db.updateIn ([] :states action.stateId :notifications) $ \ (notifications)
         notifications.push

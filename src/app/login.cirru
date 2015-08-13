@@ -21,11 +21,14 @@ var tag $ \ (className (children))
       :password :
 
   :onSubmit $ \ (event)
+    var accountInfo $ {}
+      :name this.state.name
+      :password this.state.password
+    localStorage.setItem :immutable-chat-account
+      JSON.stringify accountInfo
     view.action $ {}
       :type :account/login
-      :data $ {}
-        :name this.state.name
-        :password this.state.password
+      :data accountInfo
 
   :render $ \ ()
     return $ div ({} (:className :app-login))

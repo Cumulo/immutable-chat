@@ -11,7 +11,17 @@ require :origami-ui
 require :react-origami-tabs/src/tabs.css
 require :react-origami-notifications/src/notifications.css
 
-websocket.setup $ {} (:port 3000)
+websocket.setup $ {}
+  :port 3000
+  :onopen $ \ ()
+    var accountInfo $ JSON.parse $ or
+      localStorage.getItem :immutable-chat-account
+      , :{}
+    if (? accountInfo.name) $ do
+      view.action $ {}
+        :type :account/login
+        :data accountInfo
+    return
 
 websocket.out.forward store.in
 view.out.forward websocket.in
