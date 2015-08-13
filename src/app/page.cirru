@@ -10,6 +10,7 @@ var
 var
   Guest $ React.createFactory $ require :./guest
   Notis $ React.createFactory $ require :react-origami-notifications
+  Meeting $ React.createFactory $ require :./meeting
   div $ React.createFactory :div
 
 var pageComponent $ React.createClass $ {}
@@ -29,8 +30,13 @@ var pageComponent $ React.createClass $ {}
     view.action $ {} (:type :state/check) (:data id)
 
   :render $ \ ()
+    var isUserLogined $ ? $ ... this.state.store
+      get :state
+      get :userId
     div ({} (:className :app-page))
-      Guest
+      cond isUserLogined
+        Meeting
+        Guest
       Notis $ {}
         :notifications $ this.state.store.getIn $ [] :state :notifications
         :onClick this.onNotisClick

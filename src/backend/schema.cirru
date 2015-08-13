@@ -1,13 +1,7 @@
 
 var
+  shortid $ require :shortid
   Immutable $ require :immutable
-
-= exports.database $ Immutable.fromJS $ {}
-  :tables $ {}
-    :users $ []
-    :messages $ []
-    :buffers $ []
-  :states $ {}
 
 = exports.user $ Immutable.fromJS $ {}
   :id null
@@ -43,3 +37,23 @@ var
   :id null
   :text :empty
   :type :info
+
+= exports.database $ Immutable.fromJS $ {}
+  :tables $ {}
+    :users $ []
+      exports.user.merge $ Immutable.fromJS $ {}
+        :id :Chatter
+        :name :Chatter
+        :password :Chatter
+        :avatar :http://ww4.sinaimg.cn/thumb180/e8788f29gw1euzxos4oszj207h064jrn.jpg
+        :isOnline :true
+    :messages $ []
+      exports.message.merge $ Immutable.fromJS $ {}
+        :id (shortid.generate)
+        :topidId :root
+        :autherId :Chatter
+        :time :2015-08-13T17:16:09.414Z
+        :text ":Welcome to Chat, let's chat!"
+        :isTopic true
+    :buffers $ []
+  :states $ {}

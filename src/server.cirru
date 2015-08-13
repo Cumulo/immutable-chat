@@ -15,10 +15,8 @@ differ.setup $ {}
   :expand expand
 
 websocket.out.for $ \ (data)
-  console.log (colors.red :websocket.out) data
-
-differ.out.for $ \ (data)
-  console.log (colors.red :differ.out) data
+  console.log (colors.red :websocket.out)
+    JSON.stringify data
 
 websocket.out.forward database.in
 database.out.forward differ.in

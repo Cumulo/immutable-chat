@@ -13,11 +13,13 @@ var
           , aUser
 
 = exports.disconnect $ \ (db action)
+  var
+    theState $ db.getIn ([] :states action.stateId)
   ... db
     deleteIn $ [] :states action.stateId
     updateIn ([] :tables :users) $ \ (users)
       users.map $ \ (aUser)
-        cond (is (aUser.get :id) action.stateId)
+        cond (is (aUser.get :id) (theState.get :userId))
           aUser.set :isOnline false
           , aUser
 
