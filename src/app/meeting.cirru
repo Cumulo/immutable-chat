@@ -22,6 +22,7 @@ var
     div ({} (:className :app-meeting))
       TopicList $ {}
         :topics $ this.props.store.get :topics
-      MessageList
+      MessageList $ {}
+        :messages $ this.props.store.get :messages
       MemberList
 

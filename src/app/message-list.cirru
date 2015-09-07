@@ -14,6 +14,10 @@ var
 = module.exports $ React.createClass $ {}
   :displayName :message-list
 
+  :propTypes $ {}
+    :messages $ React.PropTypes.instanceOf Immutable.List
+
   :render $ \ ()
     div ({} (:className :message-list))
-      , :message-list
+      this.props.messages.map $ \ (message)
+        Message $ {} (:message message)

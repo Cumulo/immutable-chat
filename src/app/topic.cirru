@@ -5,6 +5,9 @@ var
   Immutable $ require :immutable
 
 var
+  Member $ React.createFactory $ require :./member
+
+var
   div $ React.createFactory :div
   img $ React.createFactory :img
 
@@ -15,5 +18,8 @@ var
     :topic $ React.PropTypes.instanceOf Immutable.Map
 
   :render $ \ ()
-    div ({} (:className :app-topic))
-      img ({} (:src $ this.props.topic.get :avatar))
+    div ({} (:className ":app-topic line"))
+      Member $ {}
+        :member $ this.props.topic.get :userRef
+      div ({} (:className :topic-text))
+        this.props.topic.get :text

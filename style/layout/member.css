@@ -1,2 +1,16 @@
 
-.app-member {}
+.app-member {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.app-member .member-avatar {
+  width: 40px;
+  height: 40px;
+  background-size: cover;
+}
+
+.app-member .member-name {
+  font-size: 14px;
+}

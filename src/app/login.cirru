@@ -16,7 +16,7 @@ var tag $ \ (className (children))
   :mixins $ [] React.addons.LinkedStateMixin
 
   :getInitialState $ \ ()
-    return $ {}
+    {}
       :name :
       :password :
 

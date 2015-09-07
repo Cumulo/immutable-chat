@@ -1,5 +1,6 @@
 
 .topic-list {
-    flex: 1;
-    background-color: hsla(39, 100%, 82%,0.6);
+  flex: 1;
+  background-color: hsla(39, 100%, 82%,0.3);
+  padding: 10px 10px;
 }

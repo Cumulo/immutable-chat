@@ -17,7 +17,7 @@ var tabs $ [] ":login" ":signup"
   :displayName :app-guest
 
   :getInitialState $ \ ()
-    return $ {}
+    {}
       :tab $ . tabs 0
 
   :onSelect $ \ (tab)
