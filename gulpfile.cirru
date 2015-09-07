@@ -5,8 +5,8 @@ var
   exec $ . (require :child_process) :exec
   env $ object
     :dev true
-    :main :http://localhost:8080/build/main.js
-    :vendor :http://localhost:8080/build/vendor.js
+    :main :http://repo:8080/build/main.js
+    :vendor :http://repo:8080/build/vendor.js
 
 gulp.task :rsync $ \ (cb)
   var
@@ -17,7 +17,7 @@ gulp.task :rsync $ \ (cb)
       :src $ array :index.html :build :images :style
       :recursive true
       :args $ array :--verbose
-      :dest :tiye:~/repo/workflow/
+      :dest :aliyun:~/repo/immutable-chat/
       :deleteAll true
     \ (error stdout stderr cmd)
       if (? error)
@@ -42,7 +42,8 @@ gulp.task :html $ \ (cb)
     assets
   if (not env.dev) $ do
     = assets $ require :./build/assets.json
-    = env.main $ + :./build/ assets.main
+    = env.main $ + :./build/ $ . assets.main 0
+    = env.style $ + :./build/ $ . assets.main 1
     = env.vendor $ + :./build/ assets.vendor
   fs.writeFile :index.html (html env) cb
 

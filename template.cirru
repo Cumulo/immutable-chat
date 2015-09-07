@@ -9,11 +9,12 @@ var
     html null
       head null
         title null :Chat
-        meta $ object (:charset :utf-8)
-        link $ object (:rel :icon)
+        meta $ {} (:charset :utf-8)
+        link $ {} (:rel :icon)
           :href :images/chat.png
-        link $ object (:rel :stylesheet)
-          :href :./style/main.css
-        script $ object (:src data.vendor) (:defer true)
-        script $ object (:src data.main) (:defer true)
+        cond data.dev undefined
+          link $ {} (:rel :stylesheet)
+            :href data.style
+        script $ {} (:src data.vendor) (:defer true)
+        script $ {} (:src data.main) (:defer true)
       body null

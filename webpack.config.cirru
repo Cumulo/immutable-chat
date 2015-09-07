@@ -3,25 +3,26 @@ var
   fs $ require :fs
   webpack $ require :webpack
 
-= module.exports $ object
-  :entry $ object
+= module.exports $ {}
+  :entry $ {}
     :vendor $ array :react :immutable
-      , :webpack-dev-server/client?http://0.0.0.0:8080
+      , :webpack-dev-server/client?http://repo:8080
       , :webpack/hot/dev-server
     :main $ array :./src/main
 
-  :output $ object
+  :output $ {}
     :path :build/
     :filename :[name].js
-    :publicPath :http://localhost:8080/build/
+    :publicPath :http://repo:8080/build/
 
-  :resolve $ object
+  :resolve $ {}
     :extensions $ array :.js :.cirru :
 
-  :module $ object
+  :module $ {}
     :loaders $ array
-      object (:test /\.cirru$) (:loader :cirru-script) (:ignore /node_modules)
-      object (:test /\.css$) (:loader :style!css)
+      {} (:test /\.cirru$) (:loader :react-hot!cirru-script) (:ignore /node_modules)
+      {} (:test /\.css$) (:loader :style!css!autoprefixer)
+      {} (:test "/\\.(png|jpg)$") (:loader :url)
 
   :plugins $ array
     new webpack.optimize.CommonsChunkPlugin :vendor :vendor.js

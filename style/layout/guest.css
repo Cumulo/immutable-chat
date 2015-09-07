@@ -13,4 +13,5 @@
 .app-guest .guest-view {
     border: 1px solid hsl(240, 70%, 92%);
     padding: 0.5em 1em;
+    background-color: hsla(0,100%,100%,0.8);
 }
