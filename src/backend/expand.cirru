@@ -21,7 +21,9 @@ var
     :messages $ ... db
       getIn $ [] :tables :messages
       filter $ \ (aMessage)
-        is (aMessage.get :id) (state.get :topicId)
+        or
+          is (aMessage.get :id) (state.get :topicId)
+          is (aMessage.get :topicId) (state.get :topicId)
       map $ \ (aMessage)
         var theUser $ ... db (getIn $ [] :tables :users)
           find $ \ (aUser) $ is (aUser.get :id) (aMessage.get :authorId)

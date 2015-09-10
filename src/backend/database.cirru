@@ -35,6 +35,7 @@ if (fs.existsSync dbpath)
     :state/focus $ stateController.focus db action
     :state/blur $ stateController.blur db action
     :state/check $ stateController.check db action
+    :state/topic $ stateController.topic db action
 
     :user/update $ userController.update db action
 

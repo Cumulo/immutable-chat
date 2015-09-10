@@ -33,3 +33,6 @@ var
   db.updateIn ([] :states action.stateId :notifications) $ \ (notifications)
     notifications.filter $ \ (notification)
       isnt (notification.get :id) action.data
+
+= exports.topic $ \ (db action)
+  db.setIn ([] :states action.stateId :topicId) action.data

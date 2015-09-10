@@ -1,2 +1,11 @@
 
-.app-message {}
+.app-message {
+  display: flex;
+  flex-direction: row;
+  background-color: hsla(0,0%,100%,0.9);
+  border: 1px solid hsla(0,0%,0%,0.2);
+}
+
+.app-message .message-text {
+  flex: 1;
+}

@@ -20,14 +20,14 @@ var
 
 = exports.buffer $ Immutable.fromJS $ {}
   :id null
-  :topidId null
+  :topicId null
   :autherId null
   :time null
   :text null
 
 = exports.message $ Immutable.fromJS $ {}
   :id null
-  :topidId null
+  :topicId null
   :authorId null
   :time null
   :text null
@@ -50,7 +50,7 @@ var
     :messages $ []
       exports.message.merge $ Immutable.fromJS $ {}
         :id (shortid.generate)
-        :topidId :root
+        :topicId :root
         :autherId :Chatter
         :time :2015-08-13T17:16:09.414Z
         :text ":Welcome to Chat, let's chat!"

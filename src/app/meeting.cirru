@@ -24,5 +24,6 @@ var
         :topics $ this.props.store.get :topics
       MessageList $ {}
         :messages $ this.props.store.get :messages
-      MemberList
+      MemberList $ {}
+        :members $ this.props.store.get :members
 

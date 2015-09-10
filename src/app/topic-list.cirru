@@ -16,7 +16,15 @@ var
   :propTypes $ {}
     :topics $ React.PropTypes.instanceOf Immutable.List
 
+  :onTopicClick $ \ (topic)
+    view.action $ {}
+      :type :state/topic
+      :data $ topic.get :id
+
   :render $ \ ()
     div ({} (:className :topic-list))
-      this.props.topics.map $ \ (aTopic)
+      this.props.topics.map $ \\ (aTopic)
+        var onClick $ \\ ()
+          this.onTopicClick aTopic
         Topic $ {} (:topic aTopic) (:key $ aTopic.get :id)
+          :onClick onClick

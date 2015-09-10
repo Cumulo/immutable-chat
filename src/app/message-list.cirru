@@ -20,4 +20,4 @@ var
   :render $ \ ()
     div ({} (:className :message-list))
       this.props.messages.map $ \ (message)
-        Message $ {} (:message message)
+        Message $ {} (:message message) (:key $ message.get :id)

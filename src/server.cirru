@@ -23,3 +23,5 @@ database.out.forward differ.in
 differ.out.forward websocket.in
 database.out.forward persistent.in
 
+differ.out.for $ \ (db)
+  console.log :db-update
