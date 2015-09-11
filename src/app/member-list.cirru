@@ -6,6 +6,7 @@ var
 
 var
   Member $ React.createFactory $ require :./member
+  UserPlace $ React.createFactory $ require :./user-place
   div $ React.createFactory :div
 
 = module.exports $ React.createClass $ {}
@@ -16,5 +17,7 @@ var
 
   :render $ \ ()
     div ({} (:className :member-list))
-      this.props.members.map $ \ (member)
-        Member $ {} (:member member) (:key $ member.get :id)
+      div ({} (:className :member-table))
+        this.props.members.map $ \ (member)
+          Member $ {} (:member member) (:key $ member.get :id)
+      UserPlace
