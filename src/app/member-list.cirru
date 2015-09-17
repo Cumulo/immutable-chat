@@ -13,11 +13,12 @@ var
   :displayName :member-list
 
   :propTypes $ {}
-    :members $ React.PropTypes.instanceOf Immutable.List
+    :members $ . (React.PropTypes.instanceOf Immutable.List) :isRequired
+    :user $ . (React.PropTypes.instanceOf Immutable.Map) :isRequired
 
   :render $ \ ()
     div ({} (:className :member-list))
       div ({} (:className :member-table))
         this.props.members.map $ \ (member)
           Member $ {} (:member member) (:key $ member.get :id)
-      UserPlace
+      UserPlace $ {} (:user this.props.user)

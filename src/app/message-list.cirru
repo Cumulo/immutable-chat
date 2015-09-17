@@ -6,6 +6,7 @@ var
 
 var
   Message $ React.createFactory $ require :./message
+  Textbox $ React.createFactory $ require :./textbox
   TopicHeader $ React.createFactory $ require :./topic-header
 
 var
@@ -16,8 +17,13 @@ var
 
   :propTypes $ {}
     :messages $ React.PropTypes.instanceOf Immutable.List
+    :showBox React.PropTypes.bool.isRequired
 
   :render $ \ ()
     div ({} (:className :message-list))
-      this.props.messages.map $ \ (message)
-        Message $ {} (:message message) (:key $ message.get :id)
+      div ({} (:className :message-table))
+        this.props.messages.map $ \ (message)
+          Message $ {} (:message message) (:key $ message.get :id)
+      cond this.props.showBox
+        Textbox
+        , undefined

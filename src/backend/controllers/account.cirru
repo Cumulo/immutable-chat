@@ -2,14 +2,13 @@
 var
   schema $ require :../schema
   Immutable $ require :immutable
-  shortid $ require :shortid
 
 = exports.signup $ \ (db action)
   var
     newUser $ ... schema.user
       merge $ Immutable.fromJS action.data
       merge $ Immutable.fromJS $ {}
-        :id (shortid.generate)
+        :id action.id
         :isOnline true
     name $  ... newUser (get :name) (trim)
     isNameEmpty $ is name.length 0
@@ -19,12 +18,12 @@ var
   case true
     isNameEmpty $ db.updateIn ([] :states action.stateId :notifications) $ \ (notifications)
       notifications.push $ schema.notification.merge $ Immutable.fromJS $ {}
-        :id (shortid.generate)
+        :id action.id
         :text ":Name cannot be empty"
         :type :fail
     isUserExisted $ db.updateIn ([] :states action.stateId :notifications) $ \ (notifications)
       notifications.push $ schema.notification.merge $ Immutable.fromJS $ {}
-        :id (shortid.generate)
+        :id action.id
         :text ":Name already token"
         :type :fail
     else $ ... db
@@ -49,7 +48,7 @@ var
     noUser $ db.updateIn ([] :states action.stateId :notifications) $ \ (notifications)
       notifications.push
         schema.notification.merge $ Immutable.fromJS $ {}
-          :id (shortid.generate)
+          :id action.id
           :text ":no such user"
           :type :fail
 
@@ -63,12 +62,12 @@ var
       updateIn ([] :states action.stateId :notifications) $ \ (notifications)
         notifications.push
           schema.notification.merge $ Immutable.fromJS $ {}
-            :id (shortid.generate)
+            :id action.id
             :text $ + ":Welcome, " (user.get :name)
 
     else $ db.updateIn ([] :states action.stateId :notifications) $ \ (notifications)
         notifications.push
           schema.notification.merge $ Immutable.fromJS $ {}
-            :id (shortid.generate)
+            :id action.id
             :text ":wrong password"
             :type :fail

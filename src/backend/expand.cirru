@@ -29,3 +29,8 @@ var
           find $ \ (aUser) $ is (aUser.get :id) (aMessage.get :authorId)
         aMessage.set :userRef theUser
     :state state
+    :user $ ... db
+      getIn $ [] :tables :users
+      find $ \ (user)
+        console.log (user.get :id) (state.get :userId)
+        is (user.get :id) (state.get :userId)

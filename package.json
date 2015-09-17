@@ -22,6 +22,7 @@
     "gulp": "^3.8.11",
     "gulp-cirru-script": "^0.1.1",
     "react-hot-loader": "^1.3.0",
+    "react-origami-lightbox": "0.0.1",
     "rsyncwrapper": "^0.4.2",
     "run-sequence": "^1.0.2",
     "stir-template": "^0.1.4",

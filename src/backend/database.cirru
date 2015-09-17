@@ -3,7 +3,6 @@ var
   Immutable $ require :immutable
   Pipeline $ require :cumulo-pipeline
   schema $ require :./schema
-  shortid $ require :shortid
   fs $ require :fs
   path $ require :path
   userController $ require :./controllers/user
@@ -38,8 +37,11 @@ if (fs.existsSync dbpath)
     :state/topic $ stateController.topic db action
 
     :user/update $ userController.update db action
+    :user/name $ userController.name db action
+    :user/avatar $ userController.avatar db action
 
     :message/promote $ messageController.promote db action
+    :message/topic $ messageController.topic db action
 
     :buffer/create $ bufferController.create db action
     :buffer/update $ bufferController.update db action

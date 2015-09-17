@@ -2,7 +2,6 @@
 var
   schema $ require :../schema
   Immutable $ require :immutable
-  shortid $ require :shortid
 
 = exports.create $ \ (db action)
   db.updateIn ([] :tables :buffers) $ \ (buffers)
@@ -17,7 +16,7 @@ var
       cond (is (aBuffer.get :id) action.data.id)
         ... aBuffer
           merge $ Immutable.fromJS action.data
-          set :time (now.toISOString)
+          set :time action.time
         , aBuffer
 
 = exports.finish $ \ (db action)
@@ -30,4 +29,4 @@ var
     updateIn ([] :tables :messages) $ \ (messages)
       messages.push $ ... schema.message
         merge aBuffer
-        set :time (now.toISOString)
+        set :time action.time

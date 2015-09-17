@@ -4,3 +4,6 @@
   color: white;
 }
 
+.user-place .as-hint {
+  color: hsla(0,0%,20%,0.8);
+}

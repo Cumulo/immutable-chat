@@ -1,6 +1,17 @@
 
 .topic-list {
   flex: 1;
+  position: relative;
+}
+
+.topic-list .topic-container {
   background-color: hsla(39, 100%, 82%,0.3);
   padding: 10px 10px;
+  height: 100%;
+}
+
+.topic-list .topic-creator {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
 }

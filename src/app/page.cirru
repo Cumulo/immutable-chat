@@ -2,7 +2,7 @@
 var
   React $ require :react
   Pipeline $ require :cumulo-pipeline
-  schema $ require :../frontend/schema
+  schema $ require :../backend/schema
   view $ require :../frontend/view
 
 = exports.in $ new Pipeline
@@ -33,6 +33,7 @@ var pageComponent $ React.createClass $ {}
     var isUserLogined $ ? $ ... this.state.store
       get :state
       get :userId
+
     div ({} (:className :app-page))
       cond isUserLogined
         Meeting $ {} (:store this.state.store)

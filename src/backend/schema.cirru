@@ -1,6 +1,5 @@
 
 var
-  shortid $ require :shortid
   Immutable $ require :immutable
 
 = exports.user $ Immutable.fromJS $ {}
@@ -49,7 +48,7 @@ var
         :isOnline :true
     :messages $ []
       exports.message.merge $ Immutable.fromJS $ {}
-        :id (shortid.generate)
+        :id :default
         :topicId :root
         :autherId :Chatter
         :time :2015-08-13T17:16:09.414Z
@@ -57,3 +56,9 @@ var
         :isTopic true
     :buffers $ []
   :states $ {}
+
+= exports.store $ Immutable.fromJS $ {}
+  :topics $ []
+  :messages $ []
+  :onlineUsers $ []
+  :state exports.state

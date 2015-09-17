@@ -22,7 +22,7 @@ var
     :loaders $ array
       {} (:test /\.cirru$) (:loader :react-hot!cirru-script) (:ignore /node_modules)
       {} (:test /\.css$) (:loader :style!css!autoprefixer)
-      {} (:test "/\\.(png|jpg)$") (:loader :url)
+      {} (:test "/\\.(png|jpg|svg)$") (:loader :url)
 
   :plugins $ array
     new webpack.optimize.CommonsChunkPlugin :vendor :vendor.js

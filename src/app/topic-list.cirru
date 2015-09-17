@@ -6,6 +6,7 @@ var
 
 var
   Topic $ React.createFactory $ require :./topic
+  TopicCreator $ React.createFactory $ require :./topic-creator
 
 var
   div $ React.createFactory :div
@@ -23,8 +24,10 @@ var
 
   :render $ \ ()
     div ({} (:className :topic-list))
-      this.props.topics.map $ \\ (aTopic)
-        var onClick $ \\ ()
-          this.onTopicClick aTopic
-        Topic $ {} (:topic aTopic) (:key $ aTopic.get :id)
-          :onClick onClick
+      div ({} (:className :topic-container))
+        this.props.topics.map $ \\ (aTopic)
+          var onClick $ \\ ()
+            this.onTopicClick aTopic
+          Topic $ {} (:topic aTopic) (:key $ aTopic.get :id)
+            :onClick onClick
+      TopicCreator

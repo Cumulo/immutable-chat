@@ -2,8 +2,8 @@
 var
   ws $ require :ws
   Pipeline $ require :cumulo-pipeline
-  differ $ require :./differ
   shortid $ require :shortid
+  differ $ require :./differ
 
 = exports.in $ new Pipeline
 = exports.out $ new Pipeline
@@ -22,7 +22,10 @@ var connectionHandler $ \ (socket)
 
   socket.on :message $ \ (rawData)
     var action $ JSON.parse rawData
+    var now $ new Date
     = action.stateId id
+    = action.id (shortid.generate)
+    = action.time (now.toISOString)
     exports.out.send action
 
   exports.out.send $ {}
@@ -42,4 +45,3 @@ exports.in.for $ \ (op)
     do
       console.log ":missing socket" op
   return undefined
-

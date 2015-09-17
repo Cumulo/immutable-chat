@@ -24,6 +24,8 @@ var
         :topics $ this.props.store.get :topics
       MessageList $ {}
         :messages $ this.props.store.get :messages
+        :showBox $ ? $ this.props.store.getIn
+          [] :state :topicId
       MemberList $ {}
         :members $ this.props.store.get :members
-
+        :user $ this.props.store.get :user
