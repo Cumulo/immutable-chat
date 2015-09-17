@@ -20,3 +20,15 @@ var
     set :isTopic true
   db.updateIn ([] :tables :messages) $ \ (messages)
     messages.push message
+
+= exports.create $ \ (db action)
+  var userId $ db.getIn $ [] :states action.stateId :userId
+  var topicId $ db.getIn $ [] :states action.stateId :topicId
+  var message $ ... schema.message
+    set :text action.data
+    set :id action.id
+    set :topicId topicId
+    set :authorId userId
+    set :isTopic false
+  db.updateIn ([] :tables :messages) $ \ (messages)
+    messages.push message

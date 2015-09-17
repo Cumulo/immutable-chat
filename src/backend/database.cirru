@@ -42,6 +42,7 @@ if (fs.existsSync dbpath)
 
     :message/promote $ messageController.promote db action
     :message/topic $ messageController.topic db action
+    :message/create $ messageController.create db action
 
     :buffer/create $ bufferController.create db action
     :buffer/update $ bufferController.update db action
