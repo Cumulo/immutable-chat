@@ -1,6 +1,7 @@
 
 var
   React $ require :react
+  color $ require :color
   view $ require :../frontend/view
   Immutable $ require :immutable
 
@@ -21,9 +22,18 @@ var
   :onClick $ \ ()
     this.props.onClick
 
+  :styleRoot $ \ ()
+    {} (:display :flex) (:flexDirection :row)
+      :marginBottom 5
+      :cursor :pointer
+      :backgroundColor $ ... (color) (hsl 0 0 100 0.9) (hslString)
+
+  :styleText $ \ ()
+    {} (:flex 1) (:marginLeft 10)
+
   :render $ \ ()
-    div ({} (:className ":app-topic line") (:onClick this.onClick))
+    div ({} (:className :app-topic) (:onClick this.onClick) (:style (this.styleRoot)))
       Member $ {}
         :member $ this.props.topic.get :userRef
-      div ({} (:className :topic-text))
+      div ({} (:className :topic-text) (:style (this.styleText)))
         this.props.topic.get :text

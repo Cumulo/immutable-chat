@@ -1,8 +1,0 @@
-
-.topic-creator {}
-
-.topic-creator .as-controller {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-}

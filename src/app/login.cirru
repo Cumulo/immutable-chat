@@ -8,9 +8,6 @@ var
   span $ React.createFactory :span
   input $ React.createFactory :input
 
-var tag $ \ (className (children))
-  div ({} (:className className)) (... children)
-
 = module.exports $ React.createClass $ {}
   :displayName :login
   :mixins $ [] React.addons.LinkedStateMixin
@@ -30,13 +27,16 @@ var tag $ \ (className (children))
       :type :account/login
       :data accountInfo
 
+  :styleControl $ \ ()
+    {} (:display :flex) (:justifyContent :flex-end)
+
   :render $ \ ()
     return $ div ({} (:className :app-login))
-      tag :line
+      div ({} (:className :line))
         span null :Username
         input $ {} (:type :text) (:valueLink $ this.linkState :name)
-      tag :line
+      div ({} (:className :line))
         span null :Password
         input $ {} (:type :password) (:valueLink $ this.linkState :password)
-      tag ":line control"
+      div ({} (:style $ this.styleControl))
         div ({} (:className ":button is-attract") (:onClick this.onSubmit)) :Submit

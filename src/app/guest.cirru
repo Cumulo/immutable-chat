@@ -1,15 +1,13 @@
 
 var
   React $ require :react
+  color $ require :color
 
 var
   Login $ React.createFactory $ require :./login
   Signup $ React.createFactory $ require :./signup
   OrigamiTabs $ React.createFactory $ require :react-origami-tabs
   div $ React.createFactory :div
-
-var tag $ \ (className (children))
-  div ({} (:className className)) (... children)
 
 var tabs $ [] ":login" ":signup"
 
@@ -23,11 +21,23 @@ var tabs $ [] ":login" ":signup"
   :onSelect $ \ (tab)
     this.setState $ {} (:tab tab)
 
+  :styleRoot $ \ ()
+    {} (:width :100%) (:height :100%) (:display :flex)
+      :justifyContent :center
+      :alignItems :center
+
+  :styleGuest $ \ ()
+    {} (:padding ":0.5em 1em")
+      :backgroundColor $ ... (color) (hsl 0 100 100 0.8) (hslString)
+      :borderWidth 1
+      :borderStyle :solid
+      :borderColor $ ... (color) (hsl 240 80 92 1) (hslString)
+
   :render $ \ ()
-    tag :app-guest
-      tag :guest-board
+    div ({} (:style $ this.styleRoot))
+      div ({})
         OrigamiTabs $ {} (:tabs tabs) (:tab this.state.tab) (:onSelect this.onSelect)
-        tag :guest-view
+        div ({} (:style $ this.styleGuest))
           case this.state.tab
             :login (Login)
             :signup (Signup)

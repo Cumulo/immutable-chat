@@ -14,12 +14,16 @@ var
   :propTypes $ {}
     :member $ React.PropTypes.instanceOf Immutable.Map
 
-  :render $ \ ()
-    var className $ classnames :app-member :line $ {}
-      :is-online $ this.props.member.get :isOnline
+  :styleRoot $ \ ()
+    {} (:display :flex) (:flexDirection :row) (:alignItems :center)
 
-    div ({} (:className className))
-      div $ {} (:className :member-avatar)
-        :style $ {} $ :backgroundImage
-          + ":url(" (this.props.member.get :avatar) ":)"
-      div ({} (:className :member-name)) (this.props.member.get :name)
+  :styleAvatar $ \ ()
+    {}
+      :backgroundImage $ + ":url(" (this.props.member.get :avatar) ":)"
+      :width 40
+      :height 40
+      :backgroundSize :cover
+
+  :render $ \ ()
+    div ({} (:style $ this.styleRoot))
+      div $ {} (:style (this.styleAvatar))

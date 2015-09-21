@@ -4,6 +4,7 @@ var
   Pipeline $ require :cumulo-pipeline
   schema $ require :../backend/schema
   view $ require :../frontend/view
+  bgOuterSpace $ require :../../images/outer-space.jpg
 
 = exports.in $ new Pipeline
 
@@ -29,12 +30,18 @@ var pageComponent $ React.createClass $ {}
   :onNotisClick $ \ (id)
     view.action $ {} (:type :state/check) (:data id)
 
+  :styleRoot $ \ ()
+    {} (:width :100%) (:height :100%)
+      :backgroundImage $ + ":url(" bgOuterSpace ":)"
+      :backgroundCize :cover
+      :fontFamily ":Verdana, Helvetica, sans-serif"
+
   :render $ \ ()
     var isUserLogined $ ? $ ... this.state.store
       get :state
       get :userId
 
-    div ({} (:className :app-page))
+    div ({} (:style $ this.styleRoot))
       cond isUserLogined
         Meeting $ {} (:store this.state.store)
         Guest

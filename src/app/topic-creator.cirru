@@ -34,6 +34,9 @@ var
         :text this.state.text
     this.setState $ {} (:showLightbox false)
 
+  :styleController $ \ ()
+    {} (:display :flex) (:justifyContent :center) (:alignItems :center)
+
   :renderLightbox $ \ ()
     Lightbox
       {}
@@ -45,7 +48,7 @@ var
     div ({} (:className :as-draft))
       textarea $ {} (:className :as-text)
         :valueLink $ this.linkState :text
-      div ({} (:className :as-controller))
+      div ({} (:style $ this.styleController))
         div
           {} (:className ":button is-attract") (:onClick this.onSubmit)
           , :submit

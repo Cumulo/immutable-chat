@@ -20,6 +20,7 @@ var
     :loaders $ []
       {} (:test /\.cirru$) (:loader :react-hot!cirru-script) (:ignore /node_modules)
       {} (:test "/\\.(png|jpg)$") (:loader :url)
+      {} (:test /\.json$) (:loader :json)
       {} (:test /\.css$) $ :loader
         ExtractTextPlugin.extract :style-loader :css!autoprefixer
   :plugins $ array

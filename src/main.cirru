@@ -10,7 +10,6 @@ require :./app/page
 require :origami-ui
 require :react-origami-tabs/src/tabs.css
 require :react-origami-notifications/src/notifications.css
-require :../style/main.css
 
 websocket.setup $ {}
   :port 3000

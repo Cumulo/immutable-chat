@@ -32,7 +32,7 @@ var
     return undefined
 
   :render $ \ ()
-    div ({} (:className :app-textbox))
+    div ({})
       textarea $ {} (:value this.state.text)
         :onChange this.onChange
         :onKeyDown this.onKeyDown

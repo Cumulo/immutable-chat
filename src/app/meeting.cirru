@@ -18,8 +18,14 @@ var
   :propTypes $ {}
     :store $ React.PropTypes.instanceOf Immutable.Map
 
+  :styleRoot $ \ ()
+    {} (:display :flex) (:flexDirection :row) (:alignItems :stretch)
+      :position :absolute
+      :width :100%
+      :height :100%
+
   :render $ \ ()
-    div ({} (:className :app-meeting))
+    div ({} (:style $ this.styleRoot))
       TopicList $ {}
         :topics $ this.props.store.get :topics
       MessageList $ {}

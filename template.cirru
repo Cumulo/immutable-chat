@@ -17,4 +17,4 @@ var
             :href data.style
         script $ {} (:src data.vendor) (:defer true)
         script $ {} (:src data.main) (:defer true)
-      body null
+      body ({} (:style ":margin: 0;"))

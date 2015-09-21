@@ -22,12 +22,22 @@ var
       :type :state/topic
       :data $ topic.get :id
 
+  :styleRoot $ \ ()
+    {} (:flex 1) (:position :relative)
+
+  :styleContainer $ \ ()
+    {} (:padding 10) (:height :100%)
+
+  :styleCreator $ \ ()
+    {} (:position :absolute) (:bottom 10) (:right 10)
+
   :render $ \ ()
-    div ({} (:className :topic-list))
-      div ({} (:className :topic-container))
+    div ({} (:style $ this.styleRoot))
+      div ({} (:style $ this.styleContainer))
         this.props.topics.map $ \\ (aTopic)
           var onClick $ \\ ()
             this.onTopicClick aTopic
           Topic $ {} (:topic aTopic) (:key $ aTopic.get :id)
             :onClick onClick
-      TopicCreator
+      div ({} (:style $ this.styleCreator))
+        TopicCreator

@@ -1,6 +1,7 @@
 
 var
   React $ require :react/addons
+  color $ require :color
   view $ require :../frontend/view
   Immutable $ require :immutable
 
@@ -41,6 +42,13 @@ var
       :data event.target.value
     this.setState $ {} (:avatar event.target.value)
 
+  :styleRoot $ \ ()
+    {} (:height 40) (:color :white)
+
+  :styleHint $ \ ()
+    {}
+      :color $ ... (color) (hsl 0 0 20 0.8) (:hslString)
+
   :renderLightbox $ \ ()
     Lightbox
       {} (:show this.state.showLightbox) (:onClose this.onLightboxHide)
@@ -56,7 +64,7 @@ var
         :onChange this.onAvatarChange
 
   :render $ \ ()
-    div ({} (:className :user-place))
+    div ({} (:style $ this.styleRoot))
       div
         {} (:className ":button is-attract") (:onClick this.onLightboxShow)
         , :settings

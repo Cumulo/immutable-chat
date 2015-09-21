@@ -6,7 +6,7 @@ Small chat app for experiment purpose.
 
 ### Background Image
 
-http://www.officelovin.com/2014/12/29/wework-tel-aviv/
+http://wallpaperus.org/outer-space-2560x1600-wallpaper-2162317/
 
 ### Develop
 

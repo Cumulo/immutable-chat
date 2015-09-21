@@ -24,6 +24,9 @@ var
         :name this.state.name
         :password this.state.password
 
+  :styleControl $ \ ()
+    {} (:display :flex) (:justifyContent :flex-end)
+
   :render $ \ ()
     div ({} (:className :app-signup))
       div ({} (:className :line))
@@ -32,5 +35,5 @@ var
       div ({} (:className :line))
         span null :Password
         input $ {} (:type :text) (:valueLink $ this.linkState :password)
-      div ({} (:className ":line control"))
+      div ({} (:style $ this.styleControl))
         div ({} (:className ":button is-attract") (:onClick this.onSubmit)) :Submit
