@@ -1,7 +1,7 @@
 
 var
   React $ require :react/addons
-  color $ require :color
+  Color $ require :color
   view $ require :../frontend/view
   Immutable $ require :immutable
 
@@ -9,8 +9,7 @@ var
   Lightbox $ React.createFactory $ require :react-origami-lightbox
 
 var
-  div $ React.createFactory :div
-  input $ React.createFactory :input
+  ({}~ div input) React.DOM
 
 = module.exports $ React.createClass $ {}
   :displayName :user-place
@@ -42,12 +41,9 @@ var
       :data event.target.value
     this.setState $ {} (:avatar event.target.value)
 
-  :styleRoot $ \ ()
-    {} (:height 40) (:color :white)
-
-  :styleHint $ \ ()
-    {}
-      :color $ ... (color) (hsl 0 0 20 0.8) (:hslString)
+  :onMessageClear $ \ ()
+    view.action $ {}
+      :type :message/clear
 
   :renderLightbox $ \ ()
     Lightbox
@@ -62,6 +58,11 @@ var
       div ({} (:className ":line as-hint")) :avatar:
       input $ {} (:className :as-value) (:value this.state.avatar)
         :onChange this.onAvatarChange
+      div ({} (:style $ @stylePreview))
+      div ({} (:style $ @styleControl))
+        div
+          {} (:style $ @styleDangerButton) (:onClick @onMessageClear)
+          , ":clear messages totally!"
 
   :render $ \ ()
     div ({} (:style $ this.styleRoot))
@@ -69,3 +70,32 @@ var
         {} (:className ":button is-attract") (:onClick this.onLightboxShow)
         , :settings
       this.renderLightbox
+
+  :styleRoot $ \ ()
+    {} (:height 40) (:color :white)
+
+  :styleHint $ \ ()
+    {}
+      :color $ ... (Color) (hsl 0 0 20 0.8) (:hslString)
+
+  :stylePreview $ \ ()
+    {}
+      :width :40px
+      :height :40px
+      :backgroundImage $ + ":url("
+        @props.user.get :avatar
+        , ":)"
+      :backgroundSize :cover
+      :display :inline-block
+      :verticalAlign :middle
+      :marginLeft :10px
+
+  :styleControl $ \ ()
+    {}
+      :marginTop :80px
+
+  :styleDangerButton $ \ ()
+    {}
+      :backgroundColor $ ... (Color) (hsl 0 80 80) (hslString)
+      :display :inline-block
+      :padding ":0 8px"

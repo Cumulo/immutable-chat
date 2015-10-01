@@ -32,3 +32,10 @@ var
     set :isTopic false
   db.updateIn ([] :tables :messages) $ \ (messages)
     messages.push message
+
+= exports.clear $ \ (db action)
+  ... db
+    setIn ([] :tables :messages) (Immutable.List)
+    setIn ([] :tables :visits) (Immutable.Map)
+    setIn ([] :tables :unreads) (Immutable.Map)
+    setIn ([] :tables :buffers) (Immutable.Map)
