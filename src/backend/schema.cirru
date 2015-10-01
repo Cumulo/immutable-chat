@@ -14,7 +14,6 @@ var
   :isFocused false
   :topicId null
   :notifications $ []
-  :isLogined false
   :userId null
 
 = exports.buffer $ Immutable.fromJS $ {}

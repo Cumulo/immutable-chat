@@ -66,8 +66,14 @@ var
             :text $ + ":Welcome, " (user.get :name)
 
     else $ db.updateIn ([] :states action.stateId :notifications) $ \ (notifications)
-        notifications.push
-          schema.notification.merge $ Immutable.fromJS $ {}
-            :id action.id
-            :text ":wrong password"
-            :type :fail
+      notifications.push
+        schema.notification.merge $ Immutable.fromJS $ {}
+          :id action.id
+          :text ":wrong password"
+          :type :fail
+
+= exports.logout $ \ (db action)
+  var
+    stateId action.stateId
+  ... db
+    setIn ([] :states stateId :userId) null

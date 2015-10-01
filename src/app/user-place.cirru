@@ -45,6 +45,11 @@ var
     view.action $ {}
       :type :message/clear
 
+  :onLogout $ \ ()
+    view.action $ {}
+      :type :account/logout
+    localStorage.setItem :immutable-chat-account :{}
+
   :renderLightbox $ \ ()
     Lightbox
       {} (:show this.state.showLightbox) (:onClose this.onLightboxHide)
@@ -59,6 +64,10 @@ var
       input $ {} (:className :as-value) (:value this.state.avatar)
         :onChange this.onAvatarChange
       div ({} (:style $ @stylePreview))
+      div ({} (:style $ @styleControl))
+        div
+          {} (:style $ @styleDangerButton) (:onClick @onLogout)
+          , ":logout"
       div ({} (:style $ @styleControl))
         div
           {} (:style $ @styleDangerButton) (:onClick @onMessageClear)

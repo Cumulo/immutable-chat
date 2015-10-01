@@ -29,6 +29,7 @@ if (fs.existsSync dbpath)
   case action.type
     :account/signup $ accountController.signup db action
     :account/login $ accountController.login db action
+    :account/logout $ accountController.logout db action
 
     :state/connect $ stateController.connect db action
     :state/disconnect $ stateController.disconnect db action

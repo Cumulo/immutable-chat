@@ -28,11 +28,15 @@ var
     this.setState $ {} (:showLightbox true)
 
   :onSubmit $ \ ()
-    view.action $ {}
-      :type :message/topic
-      :data $ {}
-        :text this.state.text
-    this.setState $ {} (:showLightbox false)
+    var text
+      this.state.text.trim
+    if (> text.length 0) $ do
+      view.action $ {}
+        :type :message/topic
+        :data $ {}
+          :text @state.text
+      @setState $ {} (:showLightbox false)
+    , undefined
 
   :renderLightbox $ \ ()
     Lightbox
