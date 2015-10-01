@@ -18,7 +18,7 @@ var
   :resolve config.resolve
   :module $ {}
     :loaders $ []
-      {} (:test /\.cirru$) (:loader :react-hot!cirru-script) (:ignore /node_modules)
+      {} (:test /\.cirru$) (:loader :cirru-script) (:ignore /node_modules)
       {} (:test "/\\.(png|jpg)$") (:loader :url)
       {} (:test /\.json$) (:loader :json)
       {} (:test /\.css$) $ :loader

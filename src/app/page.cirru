@@ -33,7 +33,7 @@ var pageComponent $ React.createClass $ {}
   :styleRoot $ \ ()
     {} (:width :100%) (:height :100%)
       :backgroundImage $ + ":url(" bgOuterSpace ":)"
-      :backgroundCize :cover
+      :backgroundSize :cover
       :fontFamily ":Verdana, Helvetica, sans-serif"
 
   :render $ \ ()

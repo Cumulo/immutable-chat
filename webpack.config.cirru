@@ -5,10 +5,11 @@ var
 
 = module.exports $ {}
   :entry $ {}
-    :vendor $ array :react :immutable
+    :vendor $ []
       , :webpack-dev-server/client?http://repo:8080
       , :webpack/hot/dev-server
-    :main $ array :./src/main
+      , :react :immutable
+    :main $ [] :./src/main
 
   :output $ {}
     :path :build/
@@ -16,14 +17,15 @@ var
     :publicPath :http://repo:8080/build/
 
   :resolve $ {}
-    :extensions $ array :.js :.cirru :
+    :extensions $ [] :.js :.cirru :
 
   :module $ {}
-    :loaders $ array
+    :loaders $ []
       {} (:test /\.cirru$) (:loader :react-hot!cirru-script) (:ignore /node_modules)
+      {} (:test "/\\.(png|jpg|svg)$") (:loader :url)
+        :query $ {} (:limit 100)
       {} (:test /\.css$) (:loader :style!css!autoprefixer)
       {} (:test /\.json$) (:loader :json)
-      {} (:test "/\\.(png|jpg|svg)$") (:loader :url)
 
-  :plugins $ array
+  :plugins $ []
     new webpack.optimize.CommonsChunkPlugin :vendor :vendor.js
