@@ -11,7 +11,7 @@ var
         title null :Chat
         meta $ {} (:charset :utf-8)
         link $ {} (:rel :icon)
-          :href :images/chat.png
+          :href :images/icon.png
         cond data.dev undefined
           link $ {} (:rel :stylesheet)
             :href data.style

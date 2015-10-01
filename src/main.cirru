@@ -12,7 +12,7 @@ require :react-origami-tabs/src/tabs.css
 require :react-origami-notifications/src/notifications.css
 
 websocket.setup $ {}
-  :port 3000
+  :port 4005
   :onopen $ \ ()
     var accountInfo $ JSON.parse $ or
       localStorage.getItem :immutable-chat-account

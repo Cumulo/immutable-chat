@@ -1,0 +1,9 @@
+{
+  "name": "immutable-chat-4005",
+  "cwd": "/home/chen/repo/Cumulo/immutable-chat",
+  "script": "src/server.cirru",
+  "exec_interpreter": "cirru-script",
+  "env": {
+    "PORT": 4005
+  }
+}

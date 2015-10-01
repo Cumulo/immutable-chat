@@ -4,6 +4,8 @@ Immutable Chat
 
 Small chat app for experiment purpose.
 
+Demo http://repo.cumulo.org/immutable-chat/
+
 ### Background Image
 
 http://wallpaperus.org/outer-space-2560x1600-wallpaper-2162317/

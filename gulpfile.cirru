@@ -14,10 +14,10 @@ gulp.task :rsync $ \ (cb)
   wrapper.rsync
     object
       :ssh true
-      :src $ array :index.html :build :images :style
+      :src $ array :index.html :build :images :style :src :processes.json :package.json
       :recursive true
       :args $ array :--verbose
-      :dest :aliyun:~/repo/immutable-chat/
+      :dest :aliyun:/home/chen/repo/Cumulo/immutable-chat
       :deleteAll true
     \ (error stdout stderr cmd)
       if (? error)
