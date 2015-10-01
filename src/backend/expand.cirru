@@ -28,6 +28,7 @@ var
         aMessage.set :userRef theUser
     :buffers $ ... db
       getIn $ [] :tables :buffers
+      toList
       filter $ \ (buffer)
         is (buffer.get :topicId) (state.get :topicId)
       map $ \ (buffer)

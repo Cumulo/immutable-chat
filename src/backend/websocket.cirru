@@ -25,7 +25,7 @@ var connectionHandler $ \ (socket)
     var now $ new Date
     = action.stateId id
     = action.id (shortid.generate)
-    = action.time (now.toISOString)
+    = action.time (now.valueOf)
     exports.out.send action
 
   exports.out.send $ {}

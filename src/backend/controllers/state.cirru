@@ -15,15 +15,13 @@ var
     stateId action.stateId
     userId $ db.getIn $ [] :states stateId :userId
   ... db
-    deleteIn $ [] :states action.stateId
+    deleteIn $ [] :states stateId
     updateIn ([] :tables :users) $ \ (users)
       users.map $ \ (aUser)
         cond (is (aUser.get :id) userId)
           aUser.set :isOnline false
           , aUser
-    updateIn ([] :tables :buffers) $ \ (buffers)
-      buffers.filterNot $ \ (buffer)
-        is (buffer.get :authorId) userId
+    deleteIn ([] :tables :buffers stateId)
 
 = exports.focus $ \ (db action)
   db.updateIn ([] :states action.stateId :isFocused) $ \ (prev) true

@@ -20,7 +20,6 @@ var
     :messages $ . (React.PropTypes.instanceOf Immutable.List) :isRequired
     :buffers $ . (React.PropTypes.instanceOf Immutable.List) :isRequired
     :showBox React.PropTypes.bool.isRequired
-    :state $ . (React.PropTypes.instanceOf Immutable.Map) :isRequired
 
   :styleRoot $ \ ()
     {} (:flex 1) (:padding 10) (:display :flex) (:flexDirection :column)
@@ -38,5 +37,5 @@ var
         @props.buffers.map $ \ (buffer)
           Buffer $ {} (:buffer buffer) (:key $ buffer.get :id)
       cond @props.showBox
-        Textbox $ {} (:state @props.state)
+        Textbox $ {}
         , undefined

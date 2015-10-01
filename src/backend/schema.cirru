@@ -21,9 +21,10 @@ var
 = exports.buffer $ Immutable.fromJS $ {}
   :id null
   :topicId null
-  :autherId null
+  :authorId null
   :time null
   :text null
+  :isTopic false
 
 = exports.message $ Immutable.fromJS $ {}
   :id null
@@ -41,21 +42,9 @@ var
 = exports.database $ Immutable.fromJS $ {}
   :tables $ {}
     :users $ []
-      exports.user.merge $ Immutable.fromJS $ {}
-        :id :Chatter
-        :name :Chatter
-        :password :Chatter
-        :avatar :http://ww4.sinaimg.cn/thumb180/e8788f29gw1euzxos4oszj207h064jrn.jpg
-        :isOnline :true
     :messages $ []
-      exports.message.merge $ Immutable.fromJS $ {}
-        :id :default
-        :topicId :root
-        :autherId :Chatter
-        :time :2015-08-13T17:16:09.414Z
-        :text ":Welcome to Chat, let's chat!"
-        :isTopic true
-    :buffers $ []
+    :buffers $ {}
+    :visits $ {}
   :states $ {}
 
 = exports.store $ Immutable.fromJS $ {}

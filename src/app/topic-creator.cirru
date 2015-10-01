@@ -34,9 +34,6 @@ var
         :text this.state.text
     this.setState $ {} (:showLightbox false)
 
-  :styleController $ \ ()
-    {} (:display :flex) (:justifyContent :center) (:alignItems :center)
-
   :renderLightbox $ \ ()
     Lightbox
       {}
@@ -59,3 +56,6 @@ var
         {} (:className ":button is-attract") (:onClick this.onLightboxShow)
         , :add
       this.renderLightbox
+
+  :styleController $ \ ()
+    {} (:display :flex) (:justifyContent :flex-start) (:alignItems :center)

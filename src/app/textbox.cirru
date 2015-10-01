@@ -15,24 +15,16 @@ var
   :displayName :app-textbox
 
   :propTypes $ {}
-    :state $ . (React.PropTypes.instanceOf Immutable.Map) :isRequired
 
   :getInitialState $ \ ()
     {} (:text :)
 
   :onChange $ \ (event)
     this.setState $ {} (:text event.target.value)
-    if (> event.target.value.length 0) $ do
-      view.action $ cond (? (@props.state.get :bufferId))
-        {}
-          :type :buffer/update
-          :data $ {}
-            :text event.target.value
-        {}
-          :type :buffer/create
-          :data $ {}
-            :text event.target.value
-    , undefined
+    view.action $ {}
+      :type :buffer/update
+      :data $ {}
+        :text event.target.value
 
   :onKeyDown $ \ (event)
     if
@@ -48,6 +40,9 @@ var
 
   :render $ \ ()
     div ({})
-      textarea $ {} (:value this.state.text)
+      textarea $ {} (:value this.state.text) (:style $ @styleText)
         :onChange this.onChange
         :onKeyDown this.onKeyDown
+
+  :styleText $ \ ()
+    {} (:margin :0px)
