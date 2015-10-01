@@ -22,6 +22,9 @@ var
         cond (is (aUser.get :id) (theState.get :userId))
           aUser.set :isOnline false
           , aUser
+    updateIn ([] :tables :buffers) $ \ (buffers)
+      buffers.filterNot $ \ (buffer)
+        is (buffer.get :authorId) (theState.get :userId)
 
 = exports.focus $ \ (db action)
   db.updateIn ([] :states action.stateId :isFocused) $ \ (prev) true

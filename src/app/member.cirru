@@ -15,7 +15,7 @@ var
     :member $ React.PropTypes.instanceOf Immutable.Map
 
   :styleRoot $ \ ()
-    {} (:display :flex) (:flexDirection :row) (:alignItems :center)
+    {} (:display :flex) (:flexDirection :row) (:alignItems :flex-start)
 
   :styleAvatar $ \ ()
     {}

@@ -2,6 +2,7 @@
 var
   React $ require :react
   keycode $ require :keycode
+  Immutable $ require :immutable
 
 var
   view $ require :../frontend/view
@@ -13,27 +14,40 @@ var
 = module.exports $ React.createClass $ {}
   :displayName :app-textbox
 
+  :propTypes $ {}
+    :state $ . (React.PropTypes.instanceOf Immutable.Map) :isRequired
+
   :getInitialState $ \ ()
     {} (:text :)
 
   :onChange $ \ (event)
     this.setState $ {} (:text event.target.value)
+    if (> event.target.value.length 0) $ do
+      view.action $ cond (? (@props.state.get :bufferId))
+        {}
+          :type :buffer/update
+          :data $ {}
+            :text event.target.value
+        {}
+          :type :buffer/create
+          :data $ {}
+            :text event.target.value
+    , undefined
 
   :onKeyDown $ \ (event)
     if
       and
         is (keycode event.keyCode) :enter
-        or event.ctrlKey event.metaKey
       do
         view.action $ {}
-          :type :message/create
+          :type :buffer/finish
           :data this.state.text
         this.setState $ {} (:text :)
-    return undefined
+        event.preventDefault
+    , undefined
 
   :render $ \ ()
     div ({})
       textarea $ {} (:value this.state.text)
         :onChange this.onChange
         :onKeyDown this.onKeyDown
-

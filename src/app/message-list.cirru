@@ -5,6 +5,7 @@ var
   Immutable $ require :immutable
 
 var
+  Buffer $ React.createFactory $ require :./buffer
   Message $ React.createFactory $ require :./message
   Textbox $ React.createFactory $ require :./textbox
   TopicHeader $ React.createFactory $ require :./topic-header
@@ -16,20 +17,26 @@ var
   :displayName :message-list
 
   :propTypes $ {}
-    :messages $ React.PropTypes.instanceOf Immutable.List
+    :messages $ . (React.PropTypes.instanceOf Immutable.List) :isRequired
+    :buffers $ . (React.PropTypes.instanceOf Immutable.List) :isRequired
     :showBox React.PropTypes.bool.isRequired
+    :state $ . (React.PropTypes.instanceOf Immutable.Map) :isRequired
 
   :styleRoot $ \ ()
     {} (:flex 1) (:padding 10) (:display :flex) (:flexDirection :column)
+      :height :100%
 
   :styleTable $ \ ()
     {} (:flex 1) (:overflowX :hidden) (:overflowY :auto)
+      :paddingBottom :200px
 
   :render $ \ ()
-    div ({} (:style $ this.styleRoot))
-      div ({} (:style $ this.styleTable))
-        this.props.messages.map $ \ (message)
+    div ({} (:style $ @styleRoot))
+      div ({} (:style $ @styleTable))
+        @props.messages.map $ \ (message)
           Message $ {} (:message message) (:key $ message.get :id)
-      cond this.props.showBox
-        Textbox
+        @props.buffers.map $ \ (buffer)
+          Buffer $ {} (:buffer buffer) (:key $ buffer.get :id)
+      cond @props.showBox
+        Textbox $ {} (:state @props.state)
         , undefined

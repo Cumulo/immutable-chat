@@ -28,9 +28,16 @@ var
         var theUser $ ... db (getIn $ [] :tables :users)
           find $ \ (aUser) $ is (aUser.get :id) (aMessage.get :authorId)
         aMessage.set :userRef theUser
+    :buffers $ ... db
+      getIn $ [] :tables :buffers
+      filter $ \ (buffer)
+        is (buffer.get :topicId) (state.get :topicId)
+      map $ \ (buffer)
+        var theUser $ ... db (getIn $ [] :tables :users)
+          find $ \ (aUser) $ is (aUser.get :id) (buffer.get :authorId)
+        buffer.set :userRef theUser
     :state state
     :user $ ... db
       getIn $ [] :tables :users
       find $ \ (user)
-        console.log (user.get :id) (state.get :userId)
         is (user.get :id) (state.get :userId)

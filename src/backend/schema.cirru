@@ -16,6 +16,7 @@ var
   :notifications $ []
   :isLogined false
   :userId null
+  :bufferId null
 
 = exports.buffer $ Immutable.fromJS $ {}
   :id null

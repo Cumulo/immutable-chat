@@ -30,8 +30,10 @@ var
         :topics $ this.props.store.get :topics
       MessageList $ {}
         :messages $ this.props.store.get :messages
+        :buffers $ this.props.store.get :buffers
         :showBox $ ? $ this.props.store.getIn
           [] :state :topicId
+        :state $ @props.store.get :state
       MemberList $ {}
         :members $ this.props.store.get :members
         :user $ this.props.store.get :user

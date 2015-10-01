@@ -10,15 +10,10 @@ var
   div $ React.createFactory :div
 
 = module.exports $ React.createClass $ {}
-  :displayName :app-message
+  :displayName :app-buffer
 
   :propTypes $ {}
-    :message $ React.PropTypes.instanceOf Immutable.Map
-
-  :onPromote $ \ ()
-    view.action $ {}
-      :type :message/promote
-      :data $ this.props.message.get :id
+    :buffer $ . (React.PropTypes.instanceOf Immutable.Map) :isRequired
 
   :styleRoot $ \ ()
     {} (:display :flex) (:flexDirection :row)
@@ -27,17 +22,12 @@ var
 
   :styleText $ \ ()
     {} (:flex 1) (:marginLeft 10)
-      :maxheight :200px
+      :maxHeight :200px
 
   :render $ \ ()
-    var message this.props.message
+    var buffer this.props.buffer
 
     div ({} (:style $ this.styleRoot))
-      Member $ {} (:member $ message.get :userRef)
+      Member $ {} (:member $ buffer.get :userRef)
       div ({} (:style $ this.styleText))
-        message.get :text
-      cond (message.get :isTopic)
-        div ({}) :T
-        div
-          {} (:className ":button is-minor") (:onClick this.onPromote)
-          , :T
+        buffer.get :text
