@@ -16,15 +16,20 @@ var
     :members $ . (React.PropTypes.instanceOf Immutable.List) :isRequired
     :user $ . (React.PropTypes.instanceOf Immutable.Map) :isRequired
 
+  :render $ \ ()
+    div ({} (:style $ @styleRoot))
+      div ({} (:style $ @styleTable))
+        @props.members.map $ \\ (member)
+          div ({} (:style $ @styleWrapper))
+            Member $ {} (:member member) (:key $ member.get :id) (:showName true)
+      UserPlace $ {} (:user @props.user)
+
   :styleRoot $ \ ()
     {} (:width 200) (:display :flex) (:flexDirection :column)
 
   :styleTable $ \ ()
     {} (:flex 1)
 
-  :render $ \ ()
-    div ({} (:style $ this.styleRoot))
-      div ({} (:style $ this.styleTable))
-        this.props.members.map $ \ (member)
-          Member $ {} (:member member) (:key $ member.get :id)
-      UserPlace $ {} (:user this.props.user)
+  :styleWrapper $ \ ()
+    {}
+      :padding ":3px 0px"

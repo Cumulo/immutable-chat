@@ -34,7 +34,7 @@ var pageComponent $ React.createClass $ {}
     {} (:width :100%) (:height :100%)
       :backgroundImage $ + ":url(" bgOuterSpace ":)"
       :backgroundSize :cover
-      :fontFamily ":Verdana, Helvetica, sans-serif"
+      :fontFamily ":Verdana, MicroSoft Yahei, Helvetica, sans-serif"
 
   :render $ \ ()
     var isUserLogined $ ? $ ... this.state.store

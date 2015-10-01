@@ -35,5 +35,6 @@ var
     div ({} (:className :app-topic) (:onClick this.onClick) (:style (this.styleRoot)))
       Member $ {}
         :member $ this.props.topic.get :userRef
+        :showName false
       div ({} (:className :topic-text) (:style (this.styleText)))
         this.props.topic.get :text

@@ -13,6 +13,14 @@ var
 
   :propTypes $ {}
     :member $ React.PropTypes.instanceOf Immutable.Map
+    :showName React.PropTypes.bool.isRequired
+
+  :render $ \ ()
+    div ({} (:style $ this.styleRoot))
+      div $ {} (:style (this.styleAvatar))
+      cond @props.showName
+        div ({} (:style $ @styleName)) $ @props.member.get :name
+        , undefined
 
   :styleRoot $ \ ()
     {} (:display :flex) (:flexDirection :row) (:alignItems :flex-start)
@@ -24,6 +32,7 @@ var
       :height 40
       :backgroundSize :cover
 
-  :render $ \ ()
-    div ({} (:style $ this.styleRoot))
-      div $ {} (:style (this.styleAvatar))
+  :styleName $ \ ()
+    {}
+      :color :white
+      :marginLeft :10px

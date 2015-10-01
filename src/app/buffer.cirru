@@ -28,6 +28,6 @@ var
     var buffer this.props.buffer
 
     div ({} (:style $ this.styleRoot))
-      Member $ {} (:member $ buffer.get :userRef)
+      Member $ {} (:member $ buffer.get :userRef) (:showName false)
       div ({} (:style $ this.styleText))
         buffer.get :text

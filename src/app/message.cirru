@@ -27,13 +27,13 @@ var
 
   :styleText $ \ ()
     {} (:flex 1) (:marginLeft 10)
-      :maxheight :200px
+      :maxHeight :200px
 
   :render $ \ ()
     var message this.props.message
 
     div ({} (:style $ this.styleRoot))
-      Member $ {} (:member $ message.get :userRef)
+      Member $ {} (:member $ message.get :userRef) (:showName false)
       div ({} (:style $ this.styleText))
         message.get :text
       cond (message.get :isTopic)

@@ -3,28 +3,27 @@ var
   schema $ require :../schema
 
 = exports.connect $ \ (db action)
+  var
+    stateId action.state
+    userId $ db.getIn $ [] :states stateId :userId
   ... db
     updateIn ([] :states action.stateId) $ \ (prev)
       schema.state.set :id action.stateId
-    updateIn ([] :tables :users) $ \ (users)
-      users.map $ \ (aUser)
-        cond (is (aUser.get :id) action.stateId)
-          aUser.set :isOnline true
-          , aUser
 
 = exports.disconnect $ \ (db action)
   var
-    theState $ db.getIn ([] :states action.stateId)
+    stateId action.stateId
+    userId $ db.getIn $ [] :states stateId :userId
   ... db
     deleteIn $ [] :states action.stateId
     updateIn ([] :tables :users) $ \ (users)
       users.map $ \ (aUser)
-        cond (is (aUser.get :id) (theState.get :userId))
+        cond (is (aUser.get :id) userId)
           aUser.set :isOnline false
           , aUser
     updateIn ([] :tables :buffers) $ \ (buffers)
       buffers.filterNot $ \ (buffer)
-        is (buffer.get :authorId) (theState.get :userId)
+        is (buffer.get :authorId) userId
 
 = exports.focus $ \ (db action)
   db.updateIn ([] :states action.stateId :isFocused) $ \ (prev) true

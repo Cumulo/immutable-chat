@@ -55,7 +55,7 @@ var
     isPasswordMatch $ ... db
       updateIn ([] :tables :users) $ \ (users) $ users.map $ \ (user)
         cond (is (user.get :name) (maybeUser.get :name))
-          user.set :online true
+          user.set :isOnline true
           , user
       updateIn ([] :states action.stateId :userId) $ \ (prev)
         user.get :id

@@ -11,9 +11,7 @@ var
         var theUser $ ... db
           getIn $ [] :tables :users
           find $ \ (aUser)
-            console.log (aUser.get :id) (aMessage.get :authorId)
             is (aUser.get :id) (aMessage.get :authorId)
-        console.log :theUser theUser
         aMessage.set :userRef theUser
     :members $ ... db
       getIn $ [] :tables :users
