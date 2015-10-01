@@ -1,7 +1,7 @@
 
 var
   React $ require :react
-  color $ require :color
+  Color $ require :color
   view $ require :../frontend/view
   Immutable $ require :immutable
 
@@ -20,21 +20,34 @@ var
     :onClick React.PropTypes.func.isRequired
 
   :onClick $ \ ()
-    this.props.onClick
+    @props.onClick @props.topic
+
+  :render $ \ ()
+    div ({} (:onClick this.onClick) (:style (this.styleRoot)))
+      Member $ {}
+        :member $ this.props.topic.get :userRef
+        :showName false
+      div ({} (:style (this.styleText)))
+        this.props.topic.get :text
+      cond (> @props.unread 0)
+        div ({} (:style $ @styleUnread)) @props.unread
+        , undefined
 
   :styleRoot $ \ ()
     {} (:display :flex) (:flexDirection :row)
       :marginBottom 5
       :cursor :pointer
-      :backgroundColor $ ... (color) (hsl 0 0 100 0.9) (hslString)
+      :backgroundColor $ ... (Color) (hsl 0 0 100 0.9) (hslString)
+      :alignItems :center
 
   :styleText $ \ ()
     {} (:flex 1) (:marginLeft 10)
 
-  :render $ \ ()
-    div ({} (:className :app-topic) (:onClick this.onClick) (:style (this.styleRoot)))
-      Member $ {}
-        :member $ this.props.topic.get :userRef
-        :showName false
-      div ({} (:className :topic-text) (:style (this.styleText)))
-        this.props.topic.get :text
+  :styleUnread $ \ ()
+    {}
+      :padding ":0 8px"
+      :backgroundColor $ ... (Color) (hsl 0 70 50) (hslString)
+      :lineHeight :26px
+      :height :26px
+      :borderRadius :50%
+      :color :white

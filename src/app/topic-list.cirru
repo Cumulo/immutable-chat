@@ -15,7 +15,9 @@ var
   :displayName :topic-list
 
   :propTypes $ {}
-    :topics $ React.PropTypes.instanceOf Immutable.List
+    :topics $ . (React.PropTypes.instanceOf Immutable.List) :isRequired
+    :visits $ . (React.PropTypes.instanceOf Immutable.Map) :isRequired
+    :unreads $ . (React.PropTypes.instanceOf Immutable.Map) :isRequired
 
   :onTopicClick $ \ (topic)
     view.action $ {}
@@ -34,10 +36,17 @@ var
   :render $ \ ()
     div ({} (:style $ this.styleRoot))
       div ({} (:style $ this.styleContainer))
-        this.props.topics.map $ \\ (aTopic)
-          var onClick $ \\ ()
-            this.onTopicClick aTopic
-          Topic $ {} (:topic aTopic) (:key $ aTopic.get :id)
-            :onClick onClick
+        ... @props.topics
+          reverse
+          map $ \\ (aTopic)
+            var
+              topicId $ aTopic.get :id
+            Topic $ {} (:topic aTopic) (:key topicId)
+              :onClick @onTopicClick
+              :unread $ or
+                @props.unreads.get topicId
+                , 0
+          sortBy $ \ (el)
+            - 0 el.props.unread
       div ({} (:style $ this.styleCreator))
         TopicCreator

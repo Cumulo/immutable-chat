@@ -25,14 +25,19 @@ var
       :height :100%
 
   :render $ \ ()
+    var
+      store @props.store
+
     div ({} (:style $ this.styleRoot))
       TopicList $ {}
-        :topics $ this.props.store.get :topics
+        :topics $ store.get :topics
+        :visits $ store.get :visits
+        :unreads $ store.get :unreads
       MessageList $ {}
-        :messages $ this.props.store.get :messages
-        :buffers $ this.props.store.get :buffers
-        :showBox $ ? $ this.props.store.getIn
+        :messages $ store.get :messages
+        :buffers $ store.get :buffers
+        :showBox $ ? $ store.getIn
           [] :state :topicId
       MemberList $ {}
-        :members $ this.props.store.get :members
-        :user $ this.props.store.get :user
+        :members $ store.get :members
+        :user $ store.get :user

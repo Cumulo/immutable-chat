@@ -28,10 +28,13 @@ var
 = exports.finish $ \ (db action)
   var
     stateId action.stateId
+    time action.time
     userId $ db.getIn $ [] :states stateId :userId
+    topicId $ db.getIn $ [] :states stateId :topicId
     targetBuffer $ ... db
       getIn $ [] :tables :buffers stateId
   ... db
     deleteIn ([] :tables :buffers stateId)
     updateIn ([] :tables :messages) $ \ (messages)
       messages.push targetBuffer
+    setIn ([] :tables :visits userId topicId) time

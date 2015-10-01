@@ -18,6 +18,7 @@ if (fs.existsSync dbpath)
   do
     var content $ JSON.parse $ fs.readFileSync dbpath :utf8
     = content.states $ {}
+    = content.visits $ {}
     var _database $ Immutable.fromJS content
   do
     var _database $ Immutable.fromJS schema.database

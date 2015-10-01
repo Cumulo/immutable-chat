@@ -20,8 +20,8 @@ var
     div ({} (:style $ @styleRoot))
       div ({} (:style $ @styleTable))
         @props.members.map $ \\ (member)
-          div ({} (:style $ @styleWrapper))
-            Member $ {} (:member member) (:key $ member.get :id) (:showName true)
+          div ({} (:style $ @styleWrapper) (:key $ member.get :id))
+            Member $ {} (:member member) (:showName true)
       UserPlace $ {} (:user @props.user)
 
   :styleRoot $ \ ()

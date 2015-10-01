@@ -35,4 +35,17 @@ var
       isnt (notification.get :id) action.data
 
 = exports.topic $ \ (db action)
-  db.setIn ([] :states action.stateId :topicId) action.data
+  var
+    time action.time
+    stateId action.stateId
+    userId $ db.getIn $ [] :states stateId :userId
+    topicId action.data
+    oldTopicId $ db.getIn $ [] :states stateId :topicId
+  cond (? oldTopicId)
+    ... db
+      setIn ([] :states action.stateId :topicId) topicId
+      setIn ([] :tables :visits userId oldTopicId) time
+      setIn ([] :tables :visits userId topicId) time
+    ... db
+      setIn ([] :states action.stateId :topicId) topicId
+      setIn ([] :tables :visits userId topicId) time
