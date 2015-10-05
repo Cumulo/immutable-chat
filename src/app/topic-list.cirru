@@ -17,6 +17,7 @@ var
     :topics $ . (React.PropTypes.instanceOf Immutable.List) :isRequired
     :visits $ . (React.PropTypes.instanceOf Immutable.Map) :isRequired
     :unreads $ . (React.PropTypes.instanceOf Immutable.Map) :isRequired
+    :subscriptions $ . (React.PropTypes.instanceOf Immutable.Map) :isRequired
 
   :onTopicClick $ \ (topic)
     view.action $ {}
@@ -30,8 +31,12 @@ var
           map $ \\ (aTopic)
             var
               topicId $ aTopic.get :id
+              isSubscribed $ or
+                @props.subscriptions.get topicId
+                , false
             Topic $ {} (:topic aTopic) (:key topicId)
               :onClick @onTopicClick
+              :isSubscribed isSubscribed
               :unread $ or
                 @props.unreads.get topicId
                 , 0

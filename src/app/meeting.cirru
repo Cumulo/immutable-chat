@@ -54,6 +54,7 @@ var
           :topics $ store.get :topics
           :visits $ store.get :visits
           :unreads $ store.get :unreads
+          :subscriptions $ store.get :subscriptions
         MessageList $ {}
           :key topicId
           :topicId topicId
@@ -62,6 +63,9 @@ var
           :user $ store.get :user
           :showBottom $ store.getIn $ [] :state :showBottom
           :listeners $ store.get :listeners
+          :isSubscribed $ or
+            store.getIn $ [] :subscriptions topicId
+            , false
         cond @state.showMembers $ MemberList $ {}
           :members $ store.get :members
           :user $ store.get :user

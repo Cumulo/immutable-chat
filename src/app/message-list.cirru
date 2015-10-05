@@ -1,6 +1,7 @@
 
 var
   React $ require :react
+  Color $ require :color
   view $ require :../frontend/view
   Immutable $ require :immutable
 
@@ -25,6 +26,7 @@ var
     :topicId React.PropTypes.string
     :user $ . (React.PropTypes.instanceOf Immutable.Map) :isRequired
     :showBottom React.PropTypes.bool.isRequired
+    :isSubscribed React.PropTypes.bool.isRequired
 
   :componentDidMount $ \ ()
     var
@@ -42,6 +44,10 @@ var
       :type :state/topic
       :data $ topic.get :id
 
+  :onSubscribeToggle $ \ ()
+    view.action $ {}
+      :type :subscribe/toggle
+
   :render $ \ ()
     var
       userId $ @props.user.get :id
@@ -55,13 +61,18 @@ var
       cond (? @props.topicId)
         Textbox $ {} (:user @props.user)
         , undefined
+      @props.buffers.map $ \ (buffer)
+        cond (isnt (buffer.get :authorId) userId)
+          Buffer $ {} (:buffer buffer) (:key $ buffer.get :id)
       div ({} (:style $ @styleListeners))
         @props.listeners.map $ \ (member)
           Member $ {} (:member member) (:showName false)
             :key $ member.get :id
-      @props.buffers.map $ \ (buffer)
-        cond (isnt (buffer.get :authorId) userId)
-          Buffer $ {} (:buffer buffer) (:key $ buffer.get :id)
+      div ({} (:style $ @styleControl))
+        div
+          {} (:style $ @styleButton @props.isSubscribed)
+            :onClick @onSubscribeToggle
+          , :subscribe
 
   :styleRoot $ \ ()
     {} (:flex 1)
@@ -75,3 +86,18 @@ var
       :display :flex
       :flexDirection :row
       :marginTop :80px
+
+  :styleControl $ \ ()
+    {}
+      :marginTop :10px
+
+  :styleButton $ \ (status)
+    {}
+      :color :white
+      :backgroundColor $ cond status
+        ... (Color) (hsl 200 40 80 0.6) (hslString)
+        ... (Color) (hsl 200 40 80 0.2) (hslString)
+      :display :inline-block
+      :padding ":0 10px"
+      :lineHeight :30px
+      :cursor :pointer

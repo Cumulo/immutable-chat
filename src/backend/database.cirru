@@ -10,6 +10,7 @@ var
   messageController $ require :./controllers/message
   stateController $ require :./controllers/state
   accountController $ require :./controllers/account
+  subscribeController $ require :./controllers/subscribe
 
 = exports.in $ new Pipeline
 
@@ -51,5 +52,7 @@ if (fs.existsSync dbpath)
 
     :buffer/update $ bufferController.update db action
     :buffer/finish $ bufferController.finish db action
+
+    :subscribe/toggle $ subscribeController.toggle db action
 
     else db

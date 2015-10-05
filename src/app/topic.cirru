@@ -18,6 +18,7 @@ var
   :propTypes $ {}
     :topic $ React.PropTypes.instanceOf Immutable.Map
     :onClick React.PropTypes.func.isRequired
+    :isSubscribed React.PropTypes.bool.isRequired
 
   :onClick $ \ ()
     @props.onClick @props.topic
@@ -25,7 +26,9 @@ var
   :render $ \ ()
     div ({} (:onClick this.onClick) (:style (this.styleRoot)))
       cond (> @props.unread 0)
-        div ({} (:style $ @styleUnread)) @props.unread
+        cond @props.isSubscribed
+          div ({} (:style $ @styleUnread)) @props.unread
+          div ({} (:style $ @styleHint))
       div ({} (:style (this.styleText)))
         this.props.topic.get :text
       Member $ {}
@@ -51,3 +54,12 @@ var
       :borderRadius :50%
       :color :white
       :marginLeft :10px
+
+  :styleHint $ \ ()
+    {}
+      :width :10px
+      :height :10px
+      :backgroundColor $ ... (Color) (hsl 0 70 50) (hslString)
+      :verticalAlign :middle
+      :marginLeft :10px
+      :borderRadius :50%

@@ -50,6 +50,7 @@ var
   :topics $ []
   :messages $ []
   :unreads $ {}
+  :subscriptions $ {}
   :buffers $ []
   :user null
   :onlineUsers $ []

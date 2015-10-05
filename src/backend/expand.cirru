@@ -70,3 +70,6 @@ var
     :visits $ or
       db.getIn $ [] :visits userId
       {}
+    :subscriptions $ or
+      db.getIn $ [] :subscriptions (state.get :userId)
+      Immutable.Map
