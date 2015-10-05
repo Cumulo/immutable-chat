@@ -58,10 +58,8 @@ var
 
   :render $ \ ()
     div ({} (:className :topic-creator))
-      div
-        {} (:className ":button is-attract") (:onClick this.onLightboxShow)
-        , ":new topic"
-      this.renderLightbox
+      div ({} (:style $ @styleButton) (:onClick this.onLightboxShow)) ":new topic"
+      @renderLightbox
 
   :styleController $ \ ()
     {} (:display :flex) (:justifyContent :flex-start) (:alignItems :center)
@@ -69,3 +67,12 @@ var
   :styleHint $ \ ()
     {}
       :color $ ... (Color) (hsl 0 0 80) (hslString)
+
+  :styleButton $ \ ()
+    {}
+      :color :white
+      :display :inline-block
+      :backgroundColor $ ... (Color) (hsl 240 80 76) (hslString)
+      :fontSize :12px
+      :padding ":0 8px"
+      :cursor :pointer

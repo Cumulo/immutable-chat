@@ -38,3 +38,8 @@ var
     updateIn ([] :tables :messages) $ \ (messages)
       messages.push targetBuffer
     setIn ([] :tables :visits userId topicId) time
+    updateIn ([] :tables :messages) $ \ (messages)
+      messages.map $ \ (message)
+        cond (is (message.get :id) topicId)
+          message.set :lastTouch time
+          , message

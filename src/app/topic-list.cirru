@@ -24,25 +24,12 @@ var
       :type :state/topic
       :data $ topic.get :id
 
-  :styleRoot $ \ ()
-    {} (:flex 1) (:position :relative)
-
-  :styleContainer $ \ ()
-    {} (:padding 10) (:height :100%)
-      :paddingBottom :200px
-      :position :absolute
-      :height :100%
-      :width :100%
-      :overflow :auto
-
-  :styleCreator $ \ ()
-    {} (:position :absolute) (:bottom 10) (:right 10)
-
   :render $ \ ()
     div ({} (:style $ this.styleRoot))
+      div ({} (:style $ @styleControl))
+        TopicCreator
       div ({} (:style $ this.styleContainer))
         ... @props.topics
-          reverse
           map $ \\ (aTopic)
             var
               topicId $ aTopic.get :id
@@ -51,7 +38,19 @@ var
               :unread $ or
                 @props.unreads.get topicId
                 , 0
-          sortBy $ \ (el)
-            - 0 el.props.unread
-      div ({} (:style $ this.styleCreator))
-        TopicCreator
+
+  :styleRoot $ \ ()
+    {} (:flex 1) (:position :relative)
+      :overflow :auto
+      :paddingTop :100px
+      :paddingBottom :200px
+
+  :styleContainer $ \ ()
+    {} (:padding 10) (:height :100%)
+
+  :styleControl $ \ ()
+    {}
+      :padding ":0 10px"
+      :display :flex
+      :flexDirection :row
+      :justifyContent :flex-end

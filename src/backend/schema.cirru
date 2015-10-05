@@ -29,6 +29,7 @@ var
   :topicId null
   :authorId null
   :time null
+  :lastTouch null
   :text null
   :isTopic false
 

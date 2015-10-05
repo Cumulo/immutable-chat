@@ -24,11 +24,10 @@ var
 
   :render $ \ ()
     div ({} (:onClick this.onClick) (:style (this.styleRoot)))
-      div ({} (:style (this.styleText)))
-        this.props.topic.get :text
       cond (> @props.unread 0)
         div ({} (:style $ @styleUnread)) @props.unread
-        , undefined
+      div ({} (:style (this.styleText)))
+        this.props.topic.get :text
       Member $ {}
         :member $ this.props.topic.get :userRef
         :showName false
@@ -51,3 +50,4 @@ var
       :height :26px
       :borderRadius :50%
       :color :white
+      :marginLeft :10px

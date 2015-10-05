@@ -13,12 +13,15 @@ var
       groupBy $ \ (message) (message.get :topicId)
 
   Immutable.Map $ {}
-    :topics $ topics.map $ \ (message)
-      var theUser $ ... db
-        getIn $ [] :tables :users
-        find $ \ (aUser)
-          is (aUser.get :id) (message.get :authorId)
-      message.set :userRef theUser
+    :topics $ ... topics
+      sortBy $ \ (message)
+        - 0 (or (message.get :lastTouch) 0)
+      map $ \ (message)
+        var theUser $ ... db
+          getIn $ [] :tables :users
+          find $ \ (aUser)
+            is (aUser.get :id) (message.get :authorId)
+        message.set :userRef theUser
     :members $ ... db
       getIn $ [] :tables :users
       filter $ \ (aUser) (aUser.get :isOnline)
