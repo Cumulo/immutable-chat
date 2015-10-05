@@ -31,8 +31,12 @@ var pageComponent $ React.createClass $ {}
     view.action $ {} (:type :state/check) (:data id)
 
   :styleRoot $ \ ()
+    var
+      theme $ or
+        @state.store.getIn $ [] :user :theme
+        , bgOuterSpace
     {} (:width :100%) (:height :100%)
-      :backgroundImage $ + ":url(" bgOuterSpace ":)"
+      :backgroundImage $ + ":url(" theme ":)"
       :backgroundSize :cover
       :fontFamily ":Verdana, MicroSoft Yahei, Helvetica, sans-serif"
 

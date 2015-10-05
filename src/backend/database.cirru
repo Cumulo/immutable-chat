@@ -44,6 +44,7 @@ if (fs.existsSync dbpath)
     :user/update $ userController.update db action
     :user/name $ userController.name db action
     :user/avatar $ userController.avatar db action
+    :user/theme $ userController.theme db action
 
     :message/promote $ messageController.promote db action
     :message/topic $ messageController.topic db action

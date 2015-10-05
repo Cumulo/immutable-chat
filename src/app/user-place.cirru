@@ -22,6 +22,7 @@ var
     {} (:showLightbox false)
       :name $ this.props.user.get :name
       :avatar $ this.props.user.get :avatar
+      :theme $ this.props.user.get :theme
 
   :onLightboxShow $ \ ()
     this.setState $ {} (:showLightbox true)
@@ -40,6 +41,12 @@ var
       :type :user/avatar
       :data event.target.value
     this.setState $ {} (:avatar event.target.value)
+
+  :onThemeChange $ \ (event)
+    view.action $ {}
+      :type :user/theme
+      :data event.target.value
+    @setState $ {} (:theme event.target.value)
 
   :onMessageClear $ \ ()
     view.action $ {}
@@ -66,6 +73,10 @@ var
         input $ {} (:className :as-value) (:value this.state.avatar)
           :onChange this.onAvatarChange
         div ({} (:style $ @stylePreview))
+      div ({} (:style $ @styleControl))
+        span ({} (:style $ @styleHint)) ":set theme(use image url):"
+        input $ {} (:className :as-value) (:value @state.theme)
+          :onChange this.onThemeChange
       div ({} (:style $ @styleControl))
         div
           {} (:style $ @styleDangerButton) (:onClick @onLogout)

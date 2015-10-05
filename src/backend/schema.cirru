@@ -8,6 +8,7 @@ var
   :password :password
   :avatar :http://tp2.sinaimg.cn/1402618461/180/0/1
   :isOnline false
+  :theme null
 
 = exports.state $ Immutable.fromJS $ {}
   :id null

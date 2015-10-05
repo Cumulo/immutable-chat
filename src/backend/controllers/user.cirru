@@ -28,3 +28,12 @@ var
       cond (is (user.get :id) userId)
         user.set :avatar action.data
         , user
+
+= exports.theme $ \ (db action)
+  var userId $ ... db
+    getIn $ [] :states action.stateId :userId
+  db.updateIn ([] :users) $ \ (users)
+    users.map $ \ (user)
+      cond (is (user.get :id) userId)
+        user.set :theme action.data
+        , user
