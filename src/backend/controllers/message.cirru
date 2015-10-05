@@ -4,7 +4,7 @@ var
   schema $ require :../../backend/schema
 
 = exports.promote $ \ (db action)
-  db.updateIn ([] :tables :messages) $ \ (messages)
+  db.updateIn ([] :messages) $ \ (messages)
     messages.map $ \ (aMessage)
       cond (is (aMessage.get :id) action.data)
         aMessage.set :isTopic true
@@ -18,7 +18,7 @@ var
     set :topicId :root
     set :authorId userId
     set :isTopic true
-  db.updateIn ([] :tables :messages) $ \ (messages)
+  db.updateIn ([] :messages) $ \ (messages)
     messages.push message
 
 = exports.create $ \ (db action)
@@ -30,12 +30,12 @@ var
     set :topicId topicId
     set :authorId userId
     set :isTopic false
-  db.updateIn ([] :tables :messages) $ \ (messages)
+  db.updateIn ([] :messages) $ \ (messages)
     messages.push message
 
 = exports.clear $ \ (db action)
   ... db
-    setIn ([] :tables :messages) (Immutable.List)
-    setIn ([] :tables :visits) (Immutable.Map)
-    setIn ([] :tables :unreads) (Immutable.Map)
-    setIn ([] :tables :buffers) (Immutable.Map)
+    setIn ([] :messages) (Immutable.List)
+    setIn ([] :visits) (Immutable.Map)
+    setIn ([] :unreads) (Immutable.Map)
+    setIn ([] :buffers) (Immutable.Map)

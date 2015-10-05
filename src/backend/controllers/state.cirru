@@ -16,12 +16,12 @@ var
     userId $ db.getIn $ [] :states stateId :userId
   ... db
     deleteIn $ [] :states stateId
-    updateIn ([] :tables :users) $ \ (users)
+    updateIn ([] :users) $ \ (users)
       users.map $ \ (aUser)
         cond (is (aUser.get :id) userId)
           aUser.set :isOnline false
           , aUser
-    deleteIn ([] :tables :buffers stateId)
+    deleteIn ([] :buffers stateId)
 
 = exports.focus $ \ (db action)
   db.updateIn ([] :states action.stateId :isFocused) $ \ (prev) true
@@ -44,8 +44,8 @@ var
   cond (? oldTopicId)
     ... db
       setIn ([] :states action.stateId :topicId) topicId
-      setIn ([] :tables :visits userId oldTopicId) time
-      setIn ([] :tables :visits userId topicId) time
+      setIn ([] :visits userId oldTopicId) time
+      setIn ([] :visits userId topicId) time
     ... db
       setIn ([] :states action.stateId :topicId) topicId
-      setIn ([] :tables :visits userId topicId) time
+      setIn ([] :visits userId topicId) time

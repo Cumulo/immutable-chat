@@ -39,11 +39,10 @@ var
   :type :info
 
 = exports.database $ Immutable.fromJS $ {}
-  :tables $ {}
-    :users $ []
-    :messages $ []
-    :buffers $ {}
-    :visits $ {}
+  :users $ []
+  :messages $ []
+  :buffers $ {}
+  :visits $ {}
   :states $ {}
 
 = exports.store $ Immutable.fromJS $ {}

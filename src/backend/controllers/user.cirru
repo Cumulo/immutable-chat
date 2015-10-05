@@ -5,7 +5,7 @@ var
 = exports.update $ \ (db action)
   var
     newUser $ Immutable.fromJS action.data
-  db.updateIn ([] :tables :users) $ \ (users)
+  db.updateIn ([] :users) $ \ (users)
     users.map $ \ (aUser)
       cond (is (aUser.get :id) (newUser.get :id))
         aUser.merge newUser
@@ -14,7 +14,7 @@ var
 = exports.name $ \ (db action)
   var userId $ ... db
     getIn $ [] :states action.stateId :userId
-  db.updateIn ([] :tables :users) $ \ (users)
+  db.updateIn ([] :users) $ \ (users)
     users.map $ \ (user)
       cond (is (user.get :id) userId)
         user.set :name action.data
@@ -23,7 +23,7 @@ var
 = exports.avatar $ \ (db action)
   var userId $ ... db
     getIn $ [] :states action.stateId :userId
-  db.updateIn ([] :tables :users) $ \ (users)
+  db.updateIn ([] :users) $ \ (users)
     users.map $ \ (user)
       cond (is (user.get :id) userId)
         user.set :avatar action.data

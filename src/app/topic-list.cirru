@@ -40,7 +40,8 @@ var
                 , 0
 
   :styleRoot $ \ ()
-    {} (:flex 1) (:position :relative)
+    {} (:position :relative)
+      :width :400px
       :overflow :auto
       :paddingTop :100px
       :paddingBottom :200px

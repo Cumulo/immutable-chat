@@ -12,13 +12,13 @@ var
     topicId $ db.getIn $ [] :states stateId :topicId
     userId $ db.getIn $ [] :states stateId :userId
   cond
-    ? (db.getIn $ [] :tables :buffers stateId)
-    db.updateIn ([] :tables :buffers stateId) $ \ (buffer)
+    ? (db.getIn $ [] :buffers stateId)
+    db.updateIn ([] :buffers stateId) $ \ (buffer)
       ... buffer
         set :text text
         set :topicId topicId
     ... db
-      setIn ([] :tables :buffers stateId) $ ... schema.buffer
+      setIn ([] :buffers stateId) $ ... schema.buffer
         set :id bufferId
         set :time time
         set :text text
@@ -32,13 +32,13 @@ var
     userId $ db.getIn $ [] :states stateId :userId
     topicId $ db.getIn $ [] :states stateId :topicId
     targetBuffer $ ... db
-      getIn $ [] :tables :buffers stateId
+      getIn $ [] :buffers stateId
   ... db
-    deleteIn ([] :tables :buffers stateId)
-    updateIn ([] :tables :messages) $ \ (messages)
+    deleteIn ([] :buffers stateId)
+    updateIn ([] :messages) $ \ (messages)
       messages.push targetBuffer
-    setIn ([] :tables :visits userId topicId) time
-    updateIn ([] :tables :messages) $ \ (messages)
+    setIn ([] :visits userId topicId) time
+    updateIn ([] :messages) $ \ (messages)
       messages.map $ \ (message)
         cond (is (message.get :id) topicId)
           message.set :lastTouch time

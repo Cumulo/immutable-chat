@@ -12,7 +12,7 @@ var
         :isOnline true
     name $  ... newUser (get :name) (trim)
     isNameEmpty $ is name.length 0
-    oldUser $ ... db (getIn $ [] :tables :users) $ find $ \ (user)
+    oldUser $ ... db (getIn $ [] :users) $ find $ \ (user)
       is (user.get :name) name
     isUserExisted $ ? oldUser
   case true
@@ -27,7 +27,7 @@ var
         :text ":Name already token"
         :type :fail
     else $ ... db
-      updateIn ([] :tables :users) $ \ (users)
+      updateIn ([] :users) $ \ (users)
         users.push newUser
       updateIn ([] :states action.stateId) $ \ (state)
         state.set :userId (newUser.get :id)
@@ -36,7 +36,7 @@ var
   var
     maybeUser $ Immutable.fromJS action.data
     user $ ... db
-      getIn $ [] :tables :users
+      getIn $ [] :users
       find $ \ (user)
         is (user.get :name) (maybeUser.get :name)
   var noUser $ not $ ? user
@@ -53,7 +53,7 @@ var
           :type :fail
 
     isPasswordMatch $ ... db
-      updateIn ([] :tables :users) $ \ (users) $ users.map $ \ (user)
+      updateIn ([] :users) $ \ (users) $ users.map $ \ (user)
         cond (is (user.get :name) (maybeUser.get :name))
           user.set :isOnline true
           , user
