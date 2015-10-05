@@ -9,7 +9,7 @@ var
   Lightbox $ React.createFactory $ require :react-origami-lightbox
 
 var
-  ({}~ div input) React.DOM
+  ({}~ div span input) React.DOM
 
 = module.exports $ React.createClass $ {}
   :displayName :user-place
@@ -57,13 +57,15 @@ var
 
   :renderTable $ \ ()
     div ({} (:className :as-table))
-      div ({} (:className ":line as-hint")) :name:
-      input $ {} (:className :as-value) (:value this.state.name)
-        :onChange this.onNameChange
-      div ({} (:className ":line as-hint")) :avatar:
-      input $ {} (:className :as-value) (:value this.state.avatar)
-        :onChange this.onAvatarChange
-      div ({} (:style $ @stylePreview))
+      div ({} (:style $ @styleControl))
+        span ({} (:style $ @styleHint)) ":set name:"
+        input $ {} (:className :as-value) (:value this.state.name)
+          :onChange this.onNameChange
+      div ({} (:style $ @styleControl))
+        span ({} (:style $ @styleHint)) ":set avatar(use image url):"
+        input $ {} (:className :as-value) (:value this.state.avatar)
+          :onChange this.onAvatarChange
+        div ({} (:style $ @stylePreview))
       div ({} (:style $ @styleControl))
         div
           {} (:style $ @styleDangerButton) (:onClick @onLogout)
@@ -101,10 +103,14 @@ var
 
   :styleControl $ \ ()
     {}
-      :marginTop :80px
+      :marginTop :20px
 
   :styleDangerButton $ \ ()
     {}
       :backgroundColor $ ... (Color) (hsl 0 80 80) (hslString)
       :display :inline-block
       :padding ":0 8px"
+
+  :styleHint $ \ ()
+    {}
+      :color $ ... (Color) (hsl 0 0 60) (hslString)

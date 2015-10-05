@@ -1,6 +1,7 @@
 
 var
   React $ require :react/addons
+  Color $ require :color
 
 var
   view $ require :../frontend/view
@@ -11,8 +12,7 @@ var
   Lightbox $ React.createFactory $ require :react-origami-lightbox
 
 var
-  div $ React.createFactory :div
-  textarea $ React.createFactory :textarea
+  ({}~ div span textarea) React.DOM
 
 = module.exports $ React.createClass $ {}
   :displayName :topic-creator
@@ -52,14 +52,20 @@ var
       div ({} (:style $ this.styleController))
         div
           {} (:className ":button is-attract") (:onClick this.onSubmit)
-          , :submit
+          , ":create topic"
+      div ({} (:style $ this.styleController))
+        span ({} (:style $ @styleHint)) ":also turn messages into topics from message drop menu"
 
   :render $ \ ()
     div ({} (:className :topic-creator))
       div
         {} (:className ":button is-attract") (:onClick this.onLightboxShow)
-        , :add
+        , ":new topic"
       this.renderLightbox
 
   :styleController $ \ ()
     {} (:display :flex) (:justifyContent :flex-start) (:alignItems :center)
+
+  :styleHint $ \ ()
+    {}
+      :color $ ... (Color) (hsl 0 0 80) (hslString)

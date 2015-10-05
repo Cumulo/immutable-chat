@@ -33,6 +33,7 @@ var
       :position :absolute
       :height :100%
       :width :100%
+      :overflow :auto
 
   :styleCreator $ \ ()
     {} (:position :absolute) (:bottom 10) (:right 10)
