@@ -21,7 +21,9 @@ var
 
   :getInitialState $ \ ()
     {}
-      :portalHeight $ - window.innerHeight 40
+      :portalHeight $ - window.innerHeight 50
+      :showTopics true
+      :showMembers true
 
   :componentDidMount $ \ ()
     window.addEventListener :resize @onResize
@@ -31,7 +33,15 @@ var
 
   :onResize $ \ (event)
     @setState $ {}
-      :portalHeight $ - window.innerHeight 40
+      :portalHeight $ - window.innerHeight 50
+
+  :onTopicsToggle $ \ ()
+    @setState $ {}
+      :showTopics $ not @state.showTopics
+
+  :onMembersToggle $ \ ()
+    @setState $ {}
+      :showMembers $ not @state.showMembers
 
   :render $ \ ()
     var
@@ -39,7 +49,7 @@ var
 
     div ({} (:style $ @styleRoot))
       div ({} (:style $ @stylePortal))
-        TopicList $ {}
+        cond @state.showTopics $ TopicList $ {}
           :topics $ store.get :topics
           :visits $ store.get :visits
           :unreads $ store.get :unreads
@@ -48,10 +58,14 @@ var
           :buffers $ store.get :buffers
           :showBox $ ? $ store.getIn
             [] :state :topicId
-        MemberList $ {}
+        cond @state.showMembers $ MemberList $ {}
           :members $ store.get :members
           :user $ store.get :user
       Toolbar $ {} (:user $ store.get :user)
+        :showTopics @state.showTopics
+        :showMembers @state.showMembers
+        :onMembersToggle @onMembersToggle
+        :onTopicsToggle @onTopicsToggle
 
   :styleRoot $ \ ()
     {} (:display :flex) (:flexDirection :column)
@@ -62,3 +76,4 @@ var
   :stylePortal $ \ ()
     {} (:display :flex) (:flexDirection :row)
       :height @state.portalHeight
+      :justifyContent :center

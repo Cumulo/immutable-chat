@@ -22,6 +22,16 @@ var
     :buffers $ . (React.PropTypes.instanceOf Immutable.List) :isRequired
     :showBox React.PropTypes.bool.isRequired
 
+  :componentDidMount $ \ ()
+    var
+      node (@getDOMNode)
+    if
+      > node.scrollHeight
+        + node.scrollTop node.clientHeight
+      do
+        = node.scrollTop node.scrollHeight
+    , undefined
+
   :onTopicClick $ \ (topic)
     view.action $ {}
       :type :state/topic
@@ -44,4 +54,5 @@ var
     {} (:flex 1)
       :height :100%
       :overflowY :auto
-      :padding ":100px 10px 200px 10px"
+      :padding ":100px 10px 300px 10px"
+      :maxWidth :800px
