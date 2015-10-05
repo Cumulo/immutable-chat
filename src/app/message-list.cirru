@@ -20,14 +20,17 @@ var
   :propTypes $ {}
     :messages $ . (React.PropTypes.instanceOf Immutable.List) :isRequired
     :buffers $ . (React.PropTypes.instanceOf Immutable.List) :isRequired
-    :showBox React.PropTypes.bool.isRequired
+    :topicId React.PropTypes.string
+    :user $ . (React.PropTypes.instanceOf Immutable.Map) :isRequired
+    :showBottom React.PropTypes.bool.isRequired
 
   :componentDidMount $ \ ()
     var
       node (@getDOMNode)
     if
-      > node.scrollHeight
-        + node.scrollTop node.clientHeight
+      and @props.showBottom
+        > node.scrollHeight
+          + node.scrollTop node.clientHeight
       do
         = node.scrollTop node.scrollHeight
     , undefined
@@ -38,17 +41,21 @@ var
       :data $ topic.get :id
 
   :render $ \ ()
+    var
+      userId $ @props.user.get :id
+
     div ({} (:style $ @styleRoot))
       @props.messages.map $ \\ (message)
         cond (message.get :isTopic)
           Topic $ {} (:unread 0) (:topic message) (:key $ message.get :id)
             :onClick @onTopicClick
           Message $ {} (:message message) (:key $ message.get :id)
-      cond @props.showBox
-        Textbox $ {}
+      cond (? @props.topicId)
+        Textbox $ {} (:user @props.user)
         , undefined
       @props.buffers.map $ \ (buffer)
-        Buffer $ {} (:buffer buffer) (:key $ buffer.get :id)
+        cond (isnt (buffer.get :authorId) userId)
+          Buffer $ {} (:buffer buffer) (:key $ buffer.get :id)
 
   :styleRoot $ \ ()
     {} (:flex 1)

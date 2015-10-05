@@ -36,3 +36,5 @@ var
     {}
       :color :white
       :marginLeft :10px
+      :overflow :hidden
+      :textOverflow :ellipsis

@@ -41,11 +41,20 @@ var
     userId $ db.getIn $ [] :states stateId :userId
     topicId action.data
     oldTopicId $ db.getIn $ [] :states stateId :topicId
+    lastVisit $ db.getIn $ [] :visits userId topicId
+    unreadMessages $ ... db
+      getIn $ [] :messages
+      filter $ \ (message)
+        and (> (message.get :time) lastVisit)
+          is (message.get :topicId) topicId
+    showBottom $ > unreadMessages.size 0
   cond (? oldTopicId)
     ... db
       setIn ([] :states action.stateId :topicId) topicId
+      setIn ([] :states action.stateId :showBottom) showBottom
       setIn ([] :visits userId oldTopicId) time
       setIn ([] :visits userId topicId) time
     ... db
       setIn ([] :states action.stateId :topicId) topicId
+      setIn ([] :states action.stateId :showBottom) showBottom
       setIn ([] :visits userId topicId) time

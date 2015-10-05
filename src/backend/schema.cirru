@@ -15,6 +15,7 @@ var
   :topicId null
   :notifications $ []
   :userId null
+  :showBottom false
 
 = exports.buffer $ Immutable.fromJS $ {}
   :id null
@@ -48,5 +49,8 @@ var
 = exports.store $ Immutable.fromJS $ {}
   :topics $ []
   :messages $ []
+  :unreads $ {}
+  :buffers $ []
+  :user null
   :onlineUsers $ []
   :state exports.state

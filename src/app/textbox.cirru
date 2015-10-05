@@ -8,13 +8,16 @@ var
   view $ require :../frontend/view
 
 var
-  div $ React.createFactory :div
-  textarea $ React.createFactory :textarea
+  Member $ React.createFactory $ require :./member
+
+var
+  ({}~ div textarea) React.DOM
 
 = module.exports $ React.createClass $ {}
   :displayName :app-textbox
 
   :propTypes $ {}
+    :user $ . (React.PropTypes.instanceOf Immutable.Map) :isRequired
 
   :getInitialState $ \ ()
     {} (:text :)
@@ -39,11 +42,21 @@ var
     , undefined
 
   :render $ \ ()
-    div ({})
+    div ({} (:style $ @styleRoot))
+      Member $ {} (:member @props.user) (:showName false)
       textarea $ {} (:value this.state.text) (:style $ @styleText)
         :onChange this.onChange
         :onKeyDown this.onKeyDown
         :placeholder ":reply here..."
 
+  :styleRoot $ \ ()
+    {}
+      :display :flex
+      :flexDirection :row
+      :marginBottom :5px
+
   :styleText $ \ ()
-    {} (:margin ":10px 0px")
+    {} (:margin :0px)
+      :height :40px
+      :lineHeight :40px
+      :fontSize :16px

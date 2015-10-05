@@ -46,6 +46,7 @@ var
   :render $ \ ()
     var
       store @props.store
+      topicId $ store.getIn $ [] :state :topicId
 
     div ({} (:style $ @styleRoot))
       div ({} (:style $ @stylePortal))
@@ -54,10 +55,12 @@ var
           :visits $ store.get :visits
           :unreads $ store.get :unreads
         MessageList $ {}
+          :key topicId
+          :topicId topicId
           :messages $ store.get :messages
           :buffers $ store.get :buffers
-          :showBox $ ? $ store.getIn
-            [] :state :topicId
+          :user $ store.get :user
+          :showBottom $ store.getIn $ [] :state :showBottom
         cond @state.showMembers $ MemberList $ {}
           :members $ store.get :members
           :user $ store.get :user
