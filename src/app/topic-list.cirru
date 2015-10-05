@@ -6,7 +6,6 @@ var
 
 var
   Topic $ React.createFactory $ require :./topic
-  TopicCreator $ React.createFactory $ require :./topic-creator
 
 var
   div $ React.createFactory :div
@@ -26,8 +25,6 @@ var
 
   :render $ \ ()
     div ({} (:style $ this.styleRoot))
-      div ({} (:style $ @styleControl))
-        TopicCreator
       div ({} (:style $ this.styleContainer))
         ... @props.topics
           map $ \\ (aTopic)
@@ -48,10 +45,3 @@ var
 
   :styleContainer $ \ ()
     {} (:padding 10) (:height :100%)
-
-  :styleControl $ \ ()
-    {}
-      :padding ":0 10px"
-      :display :flex
-      :flexDirection :row
-      :justifyContent :flex-end

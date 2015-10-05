@@ -83,7 +83,7 @@ var
       this.renderLightbox
 
   :styleRoot $ \ ()
-    {} (:height 40) (:color :white)
+    {} (:color :white)
 
   :styleHint $ \ ()
     {}

@@ -59,11 +59,6 @@ var
           , user
       updateIn ([] :states action.stateId :userId) $ \ (prev)
         user.get :id
-      updateIn ([] :states action.stateId :notifications) $ \ (notifications)
-        notifications.push
-          schema.notification.merge $ Immutable.fromJS $ {}
-            :id action.id
-            :text $ + ":Welcome, " (user.get :name)
 
     else $ db.updateIn ([] :states action.stateId :notifications) $ \ (notifications)
       notifications.push
@@ -75,5 +70,13 @@ var
 = exports.logout $ \ (db action)
   var
     stateId action.stateId
+    userId $ db.getIn $ [] :states stateId :userId
+    user $ ... db (get :users) $ find $ \ (user)
+      is (user.get :id) userId
   ... db
+    updateIn ([] :states action.stateId :notifications) $ \ (notifications)
+      notifications.push
+        schema.notification.merge $ Immutable.fromJS $ {}
+          :id action.id
+          :text $ + ":Bye for now!"
     setIn ([] :states stateId :userId) null

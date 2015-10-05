@@ -6,7 +6,6 @@ var
 
 var
   Member $ React.createFactory $ require :./member
-  UserPlace $ React.createFactory $ require :./user-place
   div $ React.createFactory :div
 
 = module.exports $ React.createClass $ {}
@@ -22,7 +21,6 @@ var
         @props.members.map $ \\ (member)
           div ({} (:style $ @styleWrapper) (:key $ member.get :id))
             Member $ {} (:member member) (:showName true)
-      UserPlace $ {} (:user @props.user)
 
   :styleRoot $ \ ()
     {} (:width 200) (:display :flex) (:flexDirection :column)

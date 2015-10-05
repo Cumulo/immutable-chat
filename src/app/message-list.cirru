@@ -35,11 +35,11 @@ var
             Topic $ {} (:unread 0) (:topic message) (:key $ message.get :id)
               :onClick @onTopicClick
             Message $ {} (:message message) (:key $ message.get :id)
+        cond @props.showBox
+          Textbox $ {}
+          , undefined
         @props.buffers.map $ \ (buffer)
           Buffer $ {} (:buffer buffer) (:key $ buffer.get :id)
-      cond @props.showBox
-        Textbox $ {}
-        , undefined
 
   :styleRoot $ \ ()
     {} (:flex 1) (:padding 10) (:display :flex) (:flexDirection :column)
