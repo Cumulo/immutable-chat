@@ -6,7 +6,7 @@ var
 = module.exports $ {}
   :entry $ {}
     :vendor $ []
-      , :webpack-dev-server/client?http://repo:8080
+      , :webpack-dev-server/client?http://repo.cumulo.org:8080
       , :webpack/hot/dev-server
       , :react :immutable
     :main $ [] :./src/main
@@ -14,7 +14,7 @@ var
   :output $ {}
     :path :build/
     :filename :[name].js
-    :publicPath :http://repo:8080/build/
+    :publicPath :http://repo.cumulo.org:8080/build/
 
   :resolve $ {}
     :extensions $ [] :.js :.cirru :

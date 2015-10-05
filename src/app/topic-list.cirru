@@ -29,6 +29,10 @@ var
 
   :styleContainer $ \ ()
     {} (:padding 10) (:height :100%)
+      :paddingBottom :200px
+      :position :absolute
+      :height :100%
+      :width :100%
 
   :styleCreator $ \ ()
     {} (:position :absolute) (:bottom 10) (:right 10)

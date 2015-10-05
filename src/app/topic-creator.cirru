@@ -35,7 +35,7 @@ var
         :type :message/topic
         :data $ {}
           :text @state.text
-      @setState $ {} (:showLightbox false)
+      @setState $ {} (:showLightbox false) (:text :)
     , undefined
 
   :renderLightbox $ \ ()

@@ -24,14 +24,14 @@ var
 
   :render $ \ ()
     div ({} (:onClick this.onClick) (:style (this.styleRoot)))
-      Member $ {}
-        :member $ this.props.topic.get :userRef
-        :showName false
       div ({} (:style (this.styleText)))
         this.props.topic.get :text
       cond (> @props.unread 0)
         div ({} (:style $ @styleUnread)) @props.unread
         , undefined
+      Member $ {}
+        :member $ this.props.topic.get :userRef
+        :showName false
 
   :styleRoot $ \ ()
     {} (:display :flex) (:flexDirection :row)
