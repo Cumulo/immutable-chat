@@ -7,6 +7,7 @@ var
 var
   Topic $ React.createFactory $ require :./topic
   Buffer $ React.createFactory $ require :./buffer
+  Member $ React.createFactory $ require :./member
   Message $ React.createFactory $ require :./message
   Textbox $ React.createFactory $ require :./textbox
   TopicHeader $ React.createFactory $ require :./topic-header
@@ -20,6 +21,7 @@ var
   :propTypes $ {}
     :messages $ . (React.PropTypes.instanceOf Immutable.List) :isRequired
     :buffers $ . (React.PropTypes.instanceOf Immutable.List) :isRequired
+    :listeners $ . (React.PropTypes.instanceOf Immutable.List) :isRequired
     :topicId React.PropTypes.string
     :user $ . (React.PropTypes.instanceOf Immutable.Map) :isRequired
     :showBottom React.PropTypes.bool.isRequired
@@ -53,6 +55,10 @@ var
       cond (? @props.topicId)
         Textbox $ {} (:user @props.user)
         , undefined
+      div ({} (:style $ @styleListeners))
+        @props.listeners.map $ \ (member)
+          Member $ {} (:member member) (:showName false)
+            :key $ member.get :id
       @props.buffers.map $ \ (buffer)
         cond (isnt (buffer.get :authorId) userId)
           Buffer $ {} (:buffer buffer) (:key $ buffer.get :id)
@@ -61,5 +67,11 @@ var
     {} (:flex 1)
       :height :100%
       :overflowY :auto
-      :padding ":100px 10px 300px 10px"
+      :padding ":100px 10px 200px 10px"
       :maxWidth :800px
+
+  :styleListeners $ \ ()
+    {}
+      :display :flex
+      :flexDirection :row
+      :marginTop :80px

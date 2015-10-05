@@ -2,15 +2,27 @@
 var
   Immutable $ require :immutable
 
+var
+  listUtil $ require :../util/list
+
 = module.exports $ \ (db state)
   var
     userId $ state.get :userId
     topics $ ... db
       getIn $ [] :messages
       filter $ \ (aMessage) (aMessage.get :isTopic)
+    users $ db.get :users
     groupedMessages $ ... db
       getIn $ [] :messages
       groupBy $ \ (message) (message.get :topicId)
+    listeners $ listUtil.unique $ ... db
+      getIn $ [] :states
+      groupBy $ \ (eachState)
+        eachState.get :topicId
+      get $ state.get :topicId
+      map $ \ (eachState)
+        users.find $ \ (user)
+          is (user.get :id) (eachState.get :userId)
 
   Immutable.Map $ {}
     :topics $ ... topics
@@ -51,11 +63,10 @@ var
         var theUser $ ... db (getIn $ [] :users)
           find $ \ (aUser) $ is (aUser.get :id) (buffer.get :authorId)
         buffer.set :userRef theUser
+    :listeners listeners
     :state state
-    :user $ ... db
-      getIn $ [] :users
-      find $ \ (user)
-        is (user.get :id) userId
+    :user $ users.find $ \ (user)
+      is (user.get :id) userId
     :visits $ or
       db.getIn $ [] :visits userId
       {}

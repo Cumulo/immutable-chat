@@ -53,4 +53,5 @@ var
   :buffers $ []
   :user null
   :onlineUsers $ []
+  :listeners $ []
   :state exports.state

@@ -61,6 +61,7 @@ var
           :buffers $ store.get :buffers
           :user $ store.get :user
           :showBottom $ store.getIn $ [] :state :showBottom
+          :listeners $ store.get :listeners
         cond @state.showMembers $ MemberList $ {}
           :members $ store.get :members
           :user $ store.get :user
