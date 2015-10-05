@@ -43,6 +43,7 @@ var
       textarea $ {} (:value this.state.text) (:style $ @styleText)
         :onChange this.onChange
         :onKeyDown this.onKeyDown
+        :placeholder ":reply here..."
 
   :styleText $ \ ()
-    {} (:margin :0px)
+    {} (:margin ":10px 0px")

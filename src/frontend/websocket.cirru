@@ -17,3 +17,7 @@ var
     exports.out.send $ Immutable.fromJS data
 
   = socket.onopen options.onopen
+  = socket.onclose $ \ ()
+    setTimeout
+      \ () (window.location.reload)
+      , 4000

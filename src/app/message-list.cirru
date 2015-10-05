@@ -29,22 +29,19 @@ var
 
   :render $ \ ()
     div ({} (:style $ @styleRoot))
-      div ({} (:style $ @styleTable))
-        @props.messages.map $ \\ (message)
-          cond (message.get :isTopic)
-            Topic $ {} (:unread 0) (:topic message) (:key $ message.get :id)
-              :onClick @onTopicClick
-            Message $ {} (:message message) (:key $ message.get :id)
-        cond @props.showBox
-          Textbox $ {}
-          , undefined
-        @props.buffers.map $ \ (buffer)
-          Buffer $ {} (:buffer buffer) (:key $ buffer.get :id)
+      @props.messages.map $ \\ (message)
+        cond (message.get :isTopic)
+          Topic $ {} (:unread 0) (:topic message) (:key $ message.get :id)
+            :onClick @onTopicClick
+          Message $ {} (:message message) (:key $ message.get :id)
+      cond @props.showBox
+        Textbox $ {}
+        , undefined
+      @props.buffers.map $ \ (buffer)
+        Buffer $ {} (:buffer buffer) (:key $ buffer.get :id)
 
   :styleRoot $ \ ()
-    {} (:flex 1) (:padding 10) (:display :flex) (:flexDirection :column)
+    {} (:flex 1)
       :height :100%
-
-  :styleTable $ \ ()
-    {} (:flex 1) (:overflowX :hidden) (:overflowY :auto)
-      :paddingBottom :200px
+      :overflowY :auto
+      :padding ":100px 10px 200px 10px"

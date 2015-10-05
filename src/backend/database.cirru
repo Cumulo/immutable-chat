@@ -18,8 +18,9 @@ if (fs.existsSync dbpath)
   do
     var content $ JSON.parse $ fs.readFileSync dbpath :utf8
     = content.states $ {}
-    = content.visits $ {}
     var _database $ Immutable.fromJS content
+    = _database $ _database.update :users $ \ (user)
+      user.set :isOnline false
   do
     var _database $ Immutable.fromJS schema.database
 

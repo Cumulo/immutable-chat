@@ -76,3 +76,4 @@ var
       :fontSize :12px
       :padding ":0 8px"
       :cursor :pointer
+      :marginRight :10px
